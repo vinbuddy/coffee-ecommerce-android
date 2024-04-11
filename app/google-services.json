@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "191519457698",
+    "project_id": "ecommerce-app-83f6e",
+    "storage_bucket": "ecommerce-app-83f6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191519457698:android:d491da45f872a7fe0d32fb",
+        "android_client_info": {
+          "package_name": "com.coffee.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191519457698-acbrekolud4l94g5ck9iejda11qlbers.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXuQSWzEVZz9IHp6ZfxyERMA5kHnvmpGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191519457698-acbrekolud4l94g5ck9iejda11qlbers.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
