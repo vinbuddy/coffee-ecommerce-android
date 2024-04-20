@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.register.RegisterActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:src="@drawable/logo"
@@ -16,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -35,7 +33,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Email or Username">
+            android:hint="Enter Name"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Enter Email"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEmail"
@@ -62,44 +77,16 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tvForgotRedirect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:text="Quên mật khẩu?"
-            android:textColor="#00226A"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:height="60dp"
             android:backgroundTint="@color/primary"
-            android:text="Đăng nhập"
+            android:text="Đăng ký"
             android:textSize="16sp"
             app:cornerRadius="@dimen/cardview_default_elevation" />
-
-
-        <Button
-            android:id="@+id/btnGoogle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:height="60dp"
-            android:backgroundTint="@android:color/transparent"
-            android:drawableLeft="@drawable/google_icon"
-            android:text="Đăng nhập bằng Google"
-            android:textColor="#555"
-            android:textSize="16sp"
-            app:cornerRadius="@dimen/cardview_default_elevation"
-            app:strokeColor="#ddd"
-            app:strokeWidth="2dp" />
 
         <TextView
 
@@ -113,31 +100,18 @@
 
     </LinearLayout>
 
+
     <TextView
-        android:id="@+id/tvRegisterRedirect"
+        android:id="@+id/tvLoginRedirect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="Chưa có tài khoản? Register"
+        android:text="Đã có tài khoản? Đăng nhập"
         android:textColor="#00226A"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="#ffffff"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.876"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.262" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

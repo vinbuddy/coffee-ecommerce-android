@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/home_icon"
+        android:title="Home" />
+    <item
+        android:id="@+id/navMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/coffee_icon"
+        android:title="Menu" />
+    <item
+        android:id="@+id/navStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/store_icon"
+        android:title="Cửa hàng" />
+    <item
+        android:id="@+id/navVoucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/voucher_icon"
+        android:title="Khuyến mãi" />
+    <item
+        android:id="@+id/navOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/menu_icon"
+        android:title="Khác" />
+</menu>

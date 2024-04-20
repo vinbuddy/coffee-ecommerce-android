@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:gravity="start">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/productGridImage"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/productGridName"
+        android:text="Cà phê sữa"
+        android:textSize="14sp"
+        android:layout_marginTop="6dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/productGridPrice"
+        android:text="40.000 đ"
+        android:textSize="12sp"
+        android:layout_marginTop="6dp"/>
+
+</LinearLayout>

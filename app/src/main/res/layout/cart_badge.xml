@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/cart_icon"
+        android:contentDescription="Giỏ hàng"
+        android:padding="12dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/badgeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/loginButton"
+        android:layout_alignTop="@id/loginButton"
+        android:background="@drawable/badge_shape"
+        android:padding="5dp"
+        android:text="99"
+        android:textColor="#FFFF"
+        android:textSize="11sp"
+        android:visibility="visible" />
+</RelativeLayout>
