@@ -19,6 +19,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     ImageSlider bannerSlider;
+    View rootView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -27,15 +28,15 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        addControls(rootView);
+        addControls();
         renderBanner();
 
         return rootView;
     }
 
-    private void addControls(View rootView) {
+    private void addControls() {
         bannerSlider = (ImageSlider) rootView.findViewById(R.id.bannerSlider);
     }
 

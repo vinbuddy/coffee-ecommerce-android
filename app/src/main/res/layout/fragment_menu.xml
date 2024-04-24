@@ -3,19 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.menu.MenuFragment">
 
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_shape"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/border_shape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp">
 
 
         <!-- Left content -->
@@ -26,29 +26,26 @@
             android:gravity="start"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/profile_icon" />
-
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/showCategories"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Xin chào 👋"
+                android:text="Chọn danh mục"
+                android:drawableRight="@drawable/expand_arrow_icon"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <!-- Right content -->
-        <include
-            android:id="@+id/cartBadgeLayout"
-            layout="@layout/cart_badge" />
+        <include layout="@layout/cart_badge"
+            android:id="@+id/cartBadgeLayout" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="10dp"
+        android:contentDescription="NULL"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -58,42 +55,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/bannerSlider"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    app:iss_corner_radius="20"
-                    app:iss_text_align="CENTER" />
-            </LinearLayout>
-
-
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/productRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <include layout="@layout/tea_product" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <include layout="@layout/coffee_product" />
-            </LinearLayout>
+                android:layout_height="match_parent"
+                tools:listitem="@layout/product_card_list_item"/>
         </LinearLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 

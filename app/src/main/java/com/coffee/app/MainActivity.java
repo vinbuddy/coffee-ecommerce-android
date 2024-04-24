@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.coffee.app.ui.home.HomeFragment;
+import com.coffee.app.ui.menu.MenuFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 //import android.widget.Button;
 //import android.widget.TextView;
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 if (itemId == R.id.navHome) {
 
                     loadFragment(new HomeFragment(), false);
+                } else if (itemId == R.id.navMenu) {
+                    loadFragment(new MenuFragment(), false);
                 }
 
                 return true;
