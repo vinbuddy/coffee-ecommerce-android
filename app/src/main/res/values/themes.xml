@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CoffeeEcommerceAndroid" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/primary</item>
     </style>
 
     <style name="roundedCorner" parent="">
@@ -12,7 +12,18 @@
     </style>
 
     <style name="radioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <!--        <item name="android:colorAccent">@color/primary</item>-->
+        <!--        <item name="android:textColorPrimary">@color/black</item>-->
         <item name="buttonTint">@color/primary</item>
+    </style>
+
+    <style name="colored_checkBox" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/primary</item>
+        <item name="android:textColorSecondary">@android:color/darker_gray</item>
+    </style>
+
+    <style name="spashScreen" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/spash_background</item>
     </style>
 
     <style name="Theme.CoffeeEcommerceAndroid" parent="Base.Theme.CoffeeEcommerceAndroid" />

@@ -190,15 +190,14 @@
 
                         <RadioButton
                             android:id="@+id/radioCash"
-                            style="@style/radioButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="@color/primary"
                             android:checked="true" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:contentDescription="NULL"
                             android:layout_marginRight="8dp"
                             android:src="@drawable/money_icon" />
 
@@ -222,14 +221,13 @@
 
                         <RadioButton
                             android:id="@+id/radioMoMo"
-                            style="@style/radioButtonStyle"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/primary" />
+                            android:layout_height="wrap_content" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:contentDescription="NULL"
                             android:layout_marginRight="8dp"
                             android:src="@drawable/momo_icon" />
 
@@ -253,15 +251,14 @@
 
                         <RadioButton
                             android:id="@+id/radioVNPay"
-                            style="@style/radioButtonStyle"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/primary" />
+                            android:layout_height="wrap_content"/>
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginRight="8dp"
+                            android:contentDescription="NULL"
                             android:src="@drawable/vnpay_icon" />
 
                         <TextView

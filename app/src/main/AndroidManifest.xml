@@ -18,9 +18,6 @@
             android:name=".ui.checkout.CheckoutActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.menu.MenuActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity

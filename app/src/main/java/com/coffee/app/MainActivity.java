@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 //    TextView textView;
 //    Button btnLogout;
 //    FirebaseAuth auth;
+    final int SPASH_TIME_OUT = 3000;
     BottomNavigationView bottomNav;
      FrameLayout frameLayout;
     @Override
@@ -33,8 +35,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addControls();
-
         renderCurrentFragment();
+
+//        addControls();
+//
+//        renderCurrentFragment();
 
 //        auth = FirebaseAuth.getInstance();
 //
