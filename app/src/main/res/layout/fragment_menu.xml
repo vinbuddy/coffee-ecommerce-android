@@ -9,13 +9,13 @@
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:background="@drawable/border_shape"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <!-- Left content -->
@@ -30,16 +30,45 @@
                 android:id="@+id/showCategories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chọn danh mục"
                 android:drawableRight="@drawable/expand_arrow_icon"
+                android:text="Chọn danh mục"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <!-- Right content -->
-        <include layout="@layout/cart_badge"
-            android:id="@+id/cartBadgeLayout" />
+        <include
+            android:id="@+id/cartBadgeLayout"
+            layout="@layout/cart_badge" />
     </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        app:endIconMode="clear_text"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        android:layout_below="@+id/headerLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tìm kiếm sản phẩm"
+            android:drawableStart="@drawable/search_icon"
+            android:drawablePadding="5dp"
+            app:cornerRadius="10dp"
+            android:inputType="text"
+            android:imeOptions="actionSearch" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -50,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
