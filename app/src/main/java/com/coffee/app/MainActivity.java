@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
 
 import com.coffee.app.ui.home.HomeFragment;
 import com.coffee.app.ui.menu.MenuFragment;
+import com.coffee.app.ui.others.OthersFragment;
+import com.coffee.app.ui.store.StoreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 //import android.widget.Button;
 //import android.widget.TextView;
@@ -78,10 +80,14 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.navHome) {
-
                     loadFragment(new HomeFragment(), false);
                 } else if (itemId == R.id.navMenu) {
                     loadFragment(new MenuFragment(), false);
+                } else if (itemId == R.id.navStore) {
+                    loadFragment(new StoreFragment(), false);
+                } else if (itemId == R.id.navVoucher) {
+                }  else {
+                    loadFragment(new OthersFragment(), false);
                 }
 
                 return true;

@@ -26,7 +26,7 @@
         android:icon="@drawable/voucher_icon"
         android:title="Khuyến mãi" />
     <item
-        android:id="@+id/navOther"
+        android:id="@+id/navOthers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/menu_icon"

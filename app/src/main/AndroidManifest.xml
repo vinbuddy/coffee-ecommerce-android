@@ -15,6 +15,15 @@
         android:theme="@style/Theme.CoffeeEcommerceAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".ui.cart.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.wishlist.WishlistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.checkout.OnlineCheckoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.checkout.CheckoutActivity"
             android:exported="false" />
         <activity
