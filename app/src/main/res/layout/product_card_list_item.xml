@@ -28,7 +28,7 @@
         android:layout_marginEnd="32dp"
         android:text="Cà phê sữa"
         android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/title_image"
