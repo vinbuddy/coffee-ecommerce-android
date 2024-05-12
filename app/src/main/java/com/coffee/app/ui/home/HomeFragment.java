@@ -13,12 +13,15 @@ import com.coffee.app.R;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     ImageSlider bannerSlider;
+    TextView textViewWelcome;
     View rootView;
 
     public HomeFragment() {
@@ -32,12 +35,14 @@ public class HomeFragment extends Fragment {
 
         addControls();
         renderBanner();
+        renderWelcomeMessage();
 
         return rootView;
     }
 
     private void addControls() {
         bannerSlider = (ImageSlider) rootView.findViewById(R.id.bannerSlider);
+        textViewWelcome = (TextView) rootView.findViewById(R.id.textViewWelcome);
     }
 
     private void renderBanner() {
@@ -49,5 +54,14 @@ public class HomeFragment extends Fragment {
             bannerSlider.setImageList(bannerList);
         }
 
+    }
+
+    private void renderWelcomeMessage() {
+        // Get the current user name in firebase
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            textViewWelcome.setText("Xin chào " + name + " 👋");
+        }
     }
 }

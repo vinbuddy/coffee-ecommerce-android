@@ -6,5 +6,5 @@ package com.coffee.app.shared;
  */
 
 public class Constants {
-    public static final String API_URL = "https://example.com/api";
+    public static final String API_URL = "https://coffee-ecommerce-server.onrender.com";
 }

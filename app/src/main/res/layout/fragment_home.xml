@@ -32,6 +32,7 @@
                 android:src="@drawable/profile_icon" />
 
             <TextView
+                android:id="@+id/textViewWelcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Xin chào 👋"

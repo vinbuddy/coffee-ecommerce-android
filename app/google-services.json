@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "191519457698",
+    "firebase_url": "https://ecommerce-app-83f6e-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "ecommerce-app-83f6e",
     "storage_bucket": "ecommerce-app-83f6e.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "191519457698-a14loe1lf1pnael9j4ett3pvl2gungtt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coffee.app",
+            "certificate_hash": "2932ff7fc778e49fca604e6cb97a0e012cb092af"
+          }
+        },
         {
           "client_id": "191519457698-acbrekolud4l94g5ck9iejda11qlbers.apps.googleusercontent.com",
           "client_type": 3

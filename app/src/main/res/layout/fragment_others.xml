@@ -155,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/textViewProfile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/account_icon"
@@ -169,6 +170,7 @@
                             android:layout_height="1dp"
                             android:background="#ddd" />
                         <TextView
+                            android:id="@+id/textViewLogout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/logout_icon"
@@ -177,7 +179,19 @@
                             android:drawableTint="#333"
                             android:drawablePadding="10dp"
                             android:paddingVertical="15dp"
+                            android:visibility="gone"
                             android:text="Đăng xuất"/>
+                        <TextView
+                            android:id="@+id/textViewLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/login_icon"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:drawableTint="#333"
+                            android:drawablePadding="10dp"
+                            android:paddingVertical="15dp"
+                            android:text="Đăng nhập"/>
 
 
                     </LinearLayout>
