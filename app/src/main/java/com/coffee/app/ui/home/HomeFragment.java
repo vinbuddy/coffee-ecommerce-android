@@ -107,7 +107,6 @@ public class HomeFragment extends Fragment {
                            // After all products are added to the lists, render the products by category
                            renderTeaProducts();
                            renderCoffeeProducts();
-
                        }
                    } catch (Exception e) {
                        e.printStackTrace();

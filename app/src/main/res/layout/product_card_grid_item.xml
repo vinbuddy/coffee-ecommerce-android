@@ -2,16 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:gravity="start">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:src="@drawable/product_image_sample"
         android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         app:shapeAppearanceOverlay="@style/roundedCorner"
         android:id="@+id/productGridImage"/>
 
