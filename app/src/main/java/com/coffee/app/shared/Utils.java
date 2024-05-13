@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,26 +24,13 @@ import java.util.Locale;
 
 public class Utils {
     public static String formatVNCurrency(double value) {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("vi", "VN"));
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00 ₫", symbols);
-        String formatValue = decimalFormat.format(value);
+        Locale locale = new Locale("vi", "VN");
+        java.util.Currency currency =  java.util.Currency.getInstance(locale);
+        java.text.NumberFormat format = java.text.NumberFormat.getCurrencyInstance(locale);
 
-        return formatValue;
-    }
+        format.setCurrency(currency);
+        format.setMaximumFractionDigits(0);
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            Bitmap myBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setDoInput(true);
-//            connection.connect();
-//            InputStream input = connection.getInputStream();
-//            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return format.format(value);
     }
 }

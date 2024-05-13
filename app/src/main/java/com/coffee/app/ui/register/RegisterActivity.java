@@ -8,11 +8,19 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.coffee.app.MainActivity;
 import com.coffee.app.R;
+import com.coffee.app.shared.Constants;
+import com.coffee.app.shared.interfaces.Authentication;
 import com.coffee.app.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,11 +30,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class RegisterActivity extends AppCompatActivity {
     TextInputEditText inputName, inputEmail, inputPassword;
     TextView tvErrorMessage, tvLoginRedirect;
     Button btnRegister;
     FirebaseAuth auth;
+    ImageView imageLogo;
 
 
 
@@ -59,6 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        imageLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
     }
 
     private void addControls () {
@@ -69,11 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvLoginRedirect = findViewById(R.id.tvLoginRedirect);
-    }
-
-    private void handleSuccess() {
-        Toast.makeText(getApplicationContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        imageLogo = findViewById(R.id.imageLogo);
     }
 
     private void registerUser() {
@@ -89,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                         FirebaseUser user = task.getResult().getUser();
                         updateUserName(user, username);
                     } else {
-                        handleError(task);
+                        tvErrorMessage.setText("Đăng ký thất bại");
                     }
                 }
             });
@@ -102,12 +119,92 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    handleSuccess();
+
+                    // Create account in database
+                    checkExistUser(user, isExist -> {
+                        if (isExist) {
+                            tvErrorMessage.setText("Tài khoản đã tồn tại");
+                        } else {
+                            createUserAccountRequest(user);
+                        }
+                    });
                 } else {
-                    handleError(task);
+                    tvErrorMessage.setText("Cập nhật thông tin vào firebase thất bại");
                 }
             }
         });
+    }
+
+    private void createUserAccountRequest(FirebaseUser userInfo) {
+        String url = Constants.API_URL + "/auth/create-user-account";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    try {
+                        Toast.makeText(getApplicationContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } catch (Exception e) {
+
+                    }
+                }, error -> {
+                    tvErrorMessage.setText("Đăng ký thất bại");
+                    Toast.makeText(getApplicationContext(), "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> param = new HashMap<>();
+                param.put("id", userInfo.getUid());
+                param.put("name", userInfo.getDisplayName());
+                param.put("avatar", String.valueOf(userInfo.getPhotoUrl()));
+                param.put("name", userInfo.getDisplayName());
+                param.put("account_type", "email");
+
+                return param;
+            }
+        };
+
+        queue.add(stringRequest);
+
+
+    }
+
+    private void checkExistUser(FirebaseUser userInfo, Authentication existListener) {
+
+        String url = Constants.API_URL + "/user/" + userInfo.getUid();
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject data = jsonResponse.getJSONObject("data");
+
+
+                            if (!data.has("id")) {
+                                existListener.onUserExist(false);
+                                return;
+                            }
+
+                            boolean isExist = data.getString("id").equals(userInfo.getUid());
+                            existListener.onUserExist(isExist);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            existListener.onUserExist(false);
+                        }
+                    }
+                }, error -> {
+            // Handle error
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+
+        queue.add(stringRequest);
+
+
     }
 
 
@@ -135,10 +232,6 @@ public class RegisterActivity extends AppCompatActivity {
         return isValidForm;
     }
 
-    private void handleError(Task<?> task) {
-        String errorMessage = task.getException().getMessage();
-        tvErrorMessage.setText(errorMessage);
-    }
 
     private void redirectToLogin() {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
