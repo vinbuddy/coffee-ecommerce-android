@@ -9,9 +9,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coffee.app.MainActivity;
 import com.coffee.app.R;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Utils;
+import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
+import com.coffee.app.ui.menu.ProductAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,6 +25,18 @@ public class TeaProductCardGridAdapter extends RecyclerView.Adapter<TeaProductCa
     ArrayList<Product> productList;
 
     LayoutInflater inflater;
+
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
+    }
+
+    private TeaProductCardGridAdapter.OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(TeaProductCardGridAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+
 
     public TeaProductCardGridAdapter(ArrayList<Product> productList) {
         this.productList = productList;
@@ -42,6 +57,15 @@ public class TeaProductCardGridAdapter extends RecyclerView.Adapter<TeaProductCa
         Picasso.get().load(product.getImage()).into(holder.imageViewProduct);
         holder.textViewName.setText(product.getName());
         holder.textViewPrice.setText(Utils.formatVNCurrency(product.getPrice()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(product);
+                }
+            }
+        });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

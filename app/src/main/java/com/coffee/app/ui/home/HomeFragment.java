@@ -19,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.coffee.app.R;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
+import com.coffee.app.ui.menu.ProductAdapter;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -38,7 +40,8 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerViewTeaProducts, recyclerViewCoffeeProducts;
 
     RecyclerView.LayoutManager teaProductLayoutManager, coffeeProductLayoutManager;
-    TeaProductCardGridAdapter teaProductAdapter, coffeeProductAdapter;
+    TeaProductCardGridAdapter teaProductAdapter;
+        CoffeeProductCardGridAdapter coffeeProductAdapter;
 
     View rootView;
 
@@ -146,12 +149,31 @@ public class HomeFragment extends Fragment {
         teaProductAdapter = new TeaProductCardGridAdapter(teaProductList);
         recyclerViewTeaProducts.setAdapter(teaProductAdapter);
 
+        teaProductAdapter.setOnItemClickListener(new TeaProductCardGridAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Product product) {
+                ProductDetailBottomSheetFragment productDetailBottomSheetFragment = new ProductDetailBottomSheetFragment(product);
+                productDetailBottomSheetFragment.show(getChildFragmentManager(), productDetailBottomSheetFragment.getTag());
+            }
+        });
+
     }
 
     private void renderCoffeeProducts() {
+
+
         coffeeProductLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewCoffeeProducts.setLayoutManager(coffeeProductLayoutManager);
-        coffeeProductAdapter = new TeaProductCardGridAdapter(coffeeProductList);
+        coffeeProductAdapter = new CoffeeProductCardGridAdapter(coffeeProductList);
         recyclerViewCoffeeProducts.setAdapter(coffeeProductAdapter);
+
+        coffeeProductAdapter.setOnItemClickListener(new CoffeeProductCardGridAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Product product) {
+                ProductDetailBottomSheetFragment productDetailBottomSheetFragment = new ProductDetailBottomSheetFragment(product);
+                productDetailBottomSheetFragment.show(getChildFragmentManager(), productDetailBottomSheetFragment.getTag());
+            }
+        });
+
     }
 }

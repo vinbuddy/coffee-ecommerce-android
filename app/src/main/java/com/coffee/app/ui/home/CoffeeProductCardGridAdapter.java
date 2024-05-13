@@ -23,6 +23,16 @@ public class CoffeeProductCardGridAdapter extends RecyclerView.Adapter<CoffeePro
 
     LayoutInflater inflater;
 
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
     public CoffeeProductCardGridAdapter(ArrayList<Product> productList) {
         this.productList = productList;
     }
@@ -42,6 +52,15 @@ public class CoffeeProductCardGridAdapter extends RecyclerView.Adapter<CoffeePro
         Picasso.get().load(product.getImage()).into(holder.imageViewProduct);
         holder.textViewName.setText(product.getName());
         holder.textViewPrice.setText(Utils.formatVNCurrency(product.getPrice()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(product);
+                }
+            }
+        });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

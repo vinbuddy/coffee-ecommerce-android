@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/categoryBottomSheetLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:nestedScrollingEnabled="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -23,7 +24,7 @@
 
                 <!-- Product Image-->
                 <ImageView
-                    android:id="@+id/imageview"
+                    android:id="@+id/imageProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -31,6 +32,7 @@
                     android:src="@drawable/product_image_sample" />
 
                 <TextView
+                    android:id="@+id/textViewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -48,6 +50,7 @@
                     android:padding="10dp">
 
                     <TextView
+                        android:id="@+id/textViewPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -72,6 +75,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/textViewDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="5sp"
@@ -79,6 +83,7 @@
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id mauris sed nisi finibus convallis ac nec lorem. Suspendisse et nisl est. Phasellus ipsum felis, finibus id porta sit amet, laoreet eget justo. Sed ultricies lacus a viverra aliquam. Proin ultrices auctor pellentesque. Phasellus non nunc at ante aliquet porttitor"
                     android:textColor="#444"
                     android:textSize="16sp" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,6 +151,8 @@
             android:insetBottom="0dp"
             app:backgroundTint="#555"
             app:cornerRadius="70dp"
+            android:textColor="@color/white"
+            app:iconTint="@color/white"
             app:icon="@drawable/close_icon"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
@@ -175,6 +182,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:gravity="start|center_vertical">
 
                     <com.google.android.material.button.MaterialButton
@@ -218,8 +226,9 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
                     android:backgroundTint="@color/primary"
                     android:text="70.000 đ • Thêm giỏ hàng"
                     app:cornerRadius="10dp" />

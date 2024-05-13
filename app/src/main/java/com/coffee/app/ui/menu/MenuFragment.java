@@ -25,6 +25,7 @@ import com.coffee.app.R;
 import com.coffee.app.model.Category;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -147,6 +148,7 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
                             }
 
                             renderProducts();
+                            showProductDetailBottomSheet();
 
 
                         } catch (JSONException e) {
@@ -204,6 +206,7 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
                             }
 
                             renderProducts();
+                            showProductDetailBottomSheet();
 
 
                         } catch (JSONException e) {
@@ -229,6 +232,18 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
     private  void renderProducts() {
         productAdapter = new ProductAdapter(getContext(),products);
         recyclerView.setAdapter(productAdapter);
+    }
+
+    private void showProductDetailBottomSheet() {
+        productAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Product product) {
+
+                ProductDetailBottomSheetFragment productDetailBottomSheetFragment = new ProductDetailBottomSheetFragment(product);
+                productDetailBottomSheetFragment.show(getChildFragmentManager(), productDetailBottomSheetFragment.getTag());
+            }
+        });
+
     }
 
 

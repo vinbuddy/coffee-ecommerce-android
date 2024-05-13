@@ -16,6 +16,7 @@ import com.coffee.app.ui.home.HomeFragment;
 import com.coffee.app.ui.menu.MenuFragment;
 import com.coffee.app.ui.others.OthersFragment;
 import com.coffee.app.ui.store.StoreFragment;
+import com.coffee.app.ui.voucher.VoucherFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 //import android.widget.Button;
 //import android.widget.TextView;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.navStore) {
                     loadFragment(new StoreFragment(), false);
                 } else if (itemId == R.id.navVoucher) {
+                    loadFragment(new VoucherFragment(), false);
                 }  else {
                     loadFragment(new OthersFragment(), false);
                 }
