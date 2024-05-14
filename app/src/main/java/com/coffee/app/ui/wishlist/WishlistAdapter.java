@@ -90,7 +90,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
                     public void onResponse(String response) {
                         products.remove(position);
                         notifyDataSetChanged();
-                        Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Đã xóa khỏi wishlist", Toast.LENGTH_SHORT).show();
                     }
                 }, new com.android.volley.Response.ErrorListener() {
                     @Override

@@ -84,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/textViewOrder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/order_icon"
@@ -98,6 +99,7 @@
                             android:layout_height="1dp"
                             android:background="#ddd" />
                         <TextView
+                            android:id="@+id/textViewCart"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/cart_icon"
@@ -112,6 +114,7 @@
                             android:layout_height="1dp"
                             android:background="#ddd" />
                         <TextView
+                            android:id="@+id/textViewWishlist"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/heart_outline_icon"

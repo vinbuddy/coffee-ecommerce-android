@@ -13,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coffee.app.R;
+import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.login.LoginActivity;
+import com.coffee.app.ui.wishlist.WishlistActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,8 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class OthersFragment extends Fragment {
-    TextView textViewLogin, textViewLogout;
+    TextView textViewLogin, textViewLogout, textViewProfile, textViewOrder, textViewCart, textViewWishlist;
     View rootView;
+
     public OthersFragment() {
         // Required empty public constructor
     }
@@ -52,11 +55,16 @@ public class OthersFragment extends Fragment {
     private void addControls() {
         textViewLogin = (TextView) rootView.findViewById(R.id.textViewLogin);
         textViewLogout = (TextView) rootView.findViewById(R.id.textViewLogout);
+        textViewProfile = (TextView) rootView.findViewById(R.id.textViewProfile);
+        textViewOrder = (TextView) rootView.findViewById(R.id.textViewOrder);
+        textViewCart = (TextView) rootView.findViewById(R.id.textViewCart);
+        textViewWishlist = (TextView) rootView.findViewById(R.id.textViewWishlist);
     }
 
     private void addEvents() {
         handleLogout();
         navigateToLogin();
+        navigateToWishlist();
     }
 
     private void renderLoginOrLogoutView() {
@@ -113,6 +121,39 @@ public class OthersFragment extends Fragment {
                 // Navigate to the login activity
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void navigateToProfile() {
+        textViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the profile activity
+                // Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                // startActivity(intent);
+            }
+        });
+    }
+
+    private void navigateToWishlist() {
+        textViewWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the profile activity
+                 Intent intent = new Intent(getActivity(), WishlistActivity.class);
+                 startActivity(intent);
+            }
+        });
+    }
+
+    private void navigateToCart() {
+        textViewCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the profile activity
+                 Intent intent = new Intent(getActivity(), CartActivity.class);
+                 startActivity(intent);
             }
         });
     }

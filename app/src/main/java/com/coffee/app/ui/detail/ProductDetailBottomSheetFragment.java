@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.coffee.app.R;
@@ -27,6 +29,7 @@ import com.coffee.app.model.Category;
 import com.coffee.app.model.Product;
 import com.coffee.app.model.ProductSize;
 import com.coffee.app.model.ProductTopping;
+import com.coffee.app.model.Wishlist;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
 import com.coffee.app.ui.home.CoffeeProductCardGridAdapter;
@@ -34,6 +37,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -41,6 +46,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment {
     Product product;
@@ -56,6 +63,10 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     RecyclerView.LayoutManager productSizesLayoutManager, productToppingsLayoutManager;
     ProductSizeAdapter productSizeAdapter;
     ProductToppingAdapter productToppingAdapter;
+
+    MaterialButton wishlistBtn;
+
+    ArrayList<Wishlist> wishlist = new ArrayList<>();
 
     public ProductDetailBottomSheetFragment(Product product) {
         this.product = product;
@@ -90,6 +101,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
         getProductSizesRequest();
         getProductToppingsRequest();
+        getWishListRequest();
 
         addEvents();
 
@@ -111,12 +123,14 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
         productSizesRecyclerView = rootView.findViewById(R.id.productSizesRecyclerView);
         productToppingsRecyclerView = rootView.findViewById(R.id.productToppingsRecyclerView);
+        wishlistBtn = rootView.findViewById(R.id.wishlistBtn);
 
     }
 
 
     private void addEvents() {
         closeBottomSheetEvent();
+        toggleAddToWishlist();
     }
 
     private void renderProduct() {
@@ -127,7 +141,6 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     }
 
     private void renderProductSizes() {
-
         if(productSizes.size() == 0) {
             return;
         }
@@ -151,6 +164,63 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         productToppingsRecyclerView.setAdapter(productToppingAdapter);
     }
 
+    private boolean isProductInWishList() {
+        for (Wishlist wishlistItem : wishlist) {
+            if (wishlistItem.getProductId() == product.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void renderActiveWishlistButton() {
+        // Check if the product is in the wishlist
+        if (wishlist.size() == 0) {
+            return;
+        }
+
+        // Render the active wishlist button
+        if (isProductInWishList()) {
+            wishlistBtn.setIconResource(R.drawable.heart_fill_icon);
+            wishlistBtn.setIconTintResource(R.color.heart);
+        } else {
+            wishlistBtn.setIconResource(R.drawable.heart_outline_icon);
+            wishlistBtn.setIconTintResource(R.color.black);
+        }
+    }
+
+    private void addWishlistState(int wishlistItemId) {
+        Wishlist wishlistItem = new Wishlist();
+
+        wishlistItem.setId(wishlistItemId);
+        wishlistItem.setProductId(product.getId());
+        wishlistItem.setProductName(product.getName());
+        wishlistItem.setProductImage(product.getImage());
+        wishlistItem.setProductPrice(product.getPrice());
+
+        wishlist.add(wishlistItem);
+    }
+
+    private void removeWishlistState() {
+        for (Wishlist wishlistItem : wishlist) {
+            if (wishlistItem.getProductId() == product.getId()) {
+                wishlist.remove(wishlistItem);
+                break;
+            }
+        }
+    }
+
+    private Wishlist getCurrentWishlistByProductId() {
+        for (Wishlist wishlistItem : wishlist) {
+            if (wishlistItem.getProductId() == product.getId()) {
+                return wishlistItem;
+            }
+        }
+        return null;
+    }
+
+
+    // REQUESTS
 
     private void getProductSizesRequest() {
         String url = Constants.API_URL + "/product/product-sizes/" + product.getId();
@@ -168,6 +238,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject productSizeObj = dataArray.getJSONObject(i);
+
                                 int id = productSizeObj.getInt("id");
                                 int productId = productSizeObj.getInt("product_id");
                                 int sizeId = productSizeObj.getInt("size_id");
@@ -248,12 +319,166 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         queue.add(stringRequest);
     }
 
+    private void getWishListRequest() {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // String userId = user.getUid();
+        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+        String url = Constants.API_URL + "/wishlist/" + userId;
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            wishlist.clear();
+
+                            JSONArray dataArray = response.getJSONArray("data");
+
+
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject productObj = dataArray.getJSONObject(i);
+
+                                int id = productObj.getInt("id");
+                                int productId = productObj.getInt("product_id");
+                                String name = productObj.getString("product_name");
+                                String img = productObj.getString("product_image");
+                                double price = Double.parseDouble(productObj.getString("product_price"));
+
+                                Wishlist wishlistItem = new Wishlist();
+                                wishlistItem.setId(id);
+                                wishlistItem.setProductId(productId);
+                                wishlistItem.setProductName(name);
+                                wishlistItem.setProductImage(img);
+                                wishlistItem.setProductPrice(price);
+
+
+
+
+                                wishlist.add(wishlistItem);
+                            }
+
+                            renderActiveWishlistButton();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        // Handle error response more gracefully (e.g., show user-friendly message)
+                    }
+                });
+
+
+        queue.add(jsonObjectRequest);
+
+    }
+
+    private void addToWishlistRequest() {
+        String url = Constants.API_URL + "/wishlist";
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // String userId = user.getUid();
+        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        // handle response
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject dataObject = jsonObject.getJSONObject("data");
+                            int id = dataObject.getInt("id");
+
+                            // add current product to wishlist variable
+                            addWishlistState(id);
+                            renderActiveWishlistButton();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(getContext(), "Đã thêm vào wishlist", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error response more gracefully (e.g., show user-friendly message)
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", userId);
+                params.put("product_id", String.valueOf(product.getId()));
+                return params;
+            }
+        };
+
+
+        queue.add(stringRequest);
+    }
+
+    private void removeFromWishlistRequest() {
+
+        String url = Constants.API_URL + "/wishlist/" + getCurrentWishlistByProductId().id;
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // handle response
+                        removeWishlistState();
+                        renderActiveWishlistButton();
+                        Toast.makeText(getContext(), "Đã xóa khỏi wishlist", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error response more gracefully (e.g., show user-friendly message)
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+
+
+
+    // EVENTS
     private void closeBottomSheetEvent() {
         closeDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+    }
+
+    private void toggleAddToWishlist() {
+        wishlistBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // If the product is in the wishlist, remove it
+                if (isProductInWishList()) {
+                    removeFromWishlistRequest();
+                } else {
+                    addToWishlistRequest();
+                }
             }
         });
     }

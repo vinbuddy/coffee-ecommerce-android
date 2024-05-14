@@ -11,10 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:nestedScrollingEnabled="true">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,6 +58,7 @@
                         android:textSize="18sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/wishlistBtn"
                         style="@style/roundedCorner"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -103,7 +103,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/productSizesRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:backgroundTint="@color/white"
                         tools:listitem="@layout/product_sizes_item" />
                 </LinearLayout>
@@ -126,13 +126,13 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/productToppingsRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:backgroundTint="@color/white"
                         tools:listitem="@layout/product_toppings_item" />
                 </LinearLayout>
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
         <!-- Close btn -->
