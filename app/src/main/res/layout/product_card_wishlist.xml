@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginVertical="8dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/title_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/product_image_sample"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedCorner" />
+
+
+    <TextView
+        android:id="@+id/tvHeading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Cà phê sữa"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
+        app:layout_constraintStart_toEndOf="@+id/title_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="40.000 đ"
+        app:layout_constraintStart_toEndOf="@+id/title_image"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeading" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRemove"
+        style="@style/roundedCorner"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:contentDescription="NULL"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="70dp"
+        app:icon="@drawable/heart_fill_icon"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="25dp"
+        app:iconTint="@color/heart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+<!--    <Button-->
+<!--        android:id="@+id/btnRemove"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Xóa"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

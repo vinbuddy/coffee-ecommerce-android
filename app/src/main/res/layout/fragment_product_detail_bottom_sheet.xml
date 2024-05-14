@@ -101,6 +101,7 @@
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/productSizesRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
@@ -123,6 +124,7 @@
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/productToppingsRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"

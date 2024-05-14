@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/closeBottomSheet"
+                android:id="@+id/backBtn"
                 android:layout_width="27dp"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/arrow_back_icon"
@@ -66,10 +66,10 @@
                 android:padding="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/productRecyclerView"
+                    android:id="@+id/wishlistRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/product_card_list_item"/>
+                    tools:listitem="@layout/product_card_wishlist"/>
 
             </LinearLayout>
         </ScrollView>
