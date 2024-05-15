@@ -27,13 +27,21 @@ import java.util.List;
 public class ProductToppingAdapter extends RecyclerView.Adapter<ProductToppingAdapter.MyViewHolder> {
     Context context;
     ArrayList<ProductTopping> productToppings;
+    ArrayList<ProductTopping> selectedTopings = new ArrayList<>();
 
     LayoutInflater inflater;
 
+    private OnToppingItemClickListener onToppingItemClickListener;
+
+    public interface OnToppingItemClickListener {
+        void onToppingItemClick(ArrayList<ProductTopping> selectedTopings);
+    }
 
 
-    public ProductToppingAdapter(ArrayList<ProductTopping> productToppings) {
-        this.productToppings = productToppings;
+
+    public ProductToppingAdapter(ArrayList<ProductTopping> productToppings, OnToppingItemClickListener onToppingItemClickListener) {
+        this.productToppings = productToppings != null ? productToppings : new ArrayList<>();
+        this.onToppingItemClickListener = onToppingItemClickListener;
     }
 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,14 +59,15 @@ public class ProductToppingAdapter extends RecyclerView.Adapter<ProductToppingAd
         holder.textViewToppingPrice.setText(Utils.formatVNCurrency(productTopping.getToppingPrice()));
         holder.checkBoxToppingName.setText(productTopping.getToppingName());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (onItemClickListener != null) {
-//                    onItemClickListener.onItemClick(product);
-//                }
-//            }
-//        });
+        holder.checkBoxToppingName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                selectedTopings.add(productTopping);
+            } else {
+                selectedTopings.remove(position);
+            }
+
+            onToppingItemClickListener.onToppingItemClick(selectedTopings);
+        });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

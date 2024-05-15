@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment {
+public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment implements ProductSizeAdapter.OnSizeItemSizeClickListener, ProductToppingAdapter.OnToppingItemClickListener {
     Product product;
     ArrayList<ProductSize> productSizes = new ArrayList<>();
     ArrayList<ProductTopping> productToppings = new ArrayList<>();
@@ -57,16 +59,24 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     BottomSheetBehavior<View> bottomSheetBehavior;
     View rootView;
     MaterialButton closeDetailBtn;
-    TextView textViewName, textViewPrice, textViewDescription;
+    TextView textViewName, textViewPrice, textViewDescription, textViewQuantity;
     ImageView imageProduct;
     RecyclerView productSizesRecyclerView, productToppingsRecyclerView;
     RecyclerView.LayoutManager productSizesLayoutManager, productToppingsLayoutManager;
     ProductSizeAdapter productSizeAdapter;
     ProductToppingAdapter productToppingAdapter;
 
-    MaterialButton wishlistBtn;
+    MaterialButton wishlistBtn, increaseQuantityBtn, decreaseQuantityBtn;
+
+    Button addToCartBtn;
 
     ArrayList<Wishlist> wishlist = new ArrayList<>();
+
+    // Data
+    int quantity = 1;
+    ArrayList<ProductTopping> selectedToppings;
+    ProductSize selectedSize;
+    double previewPrice = 0;
 
     public ProductDetailBottomSheetFragment(Product product) {
         this.product = product;
@@ -76,6 +86,8 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(R.color.overlay);
         return dialog;
     }
 
@@ -97,6 +109,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         addControls();
+        renderQuantity();
         renderProduct();
 
         getProductSizesRequest();
@@ -104,6 +117,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         getWishListRequest();
 
         addEvents();
+
 
 
         // Set min height to parent view
@@ -125,12 +139,41 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         productToppingsRecyclerView = rootView.findViewById(R.id.productToppingsRecyclerView);
         wishlistBtn = rootView.findViewById(R.id.wishlistBtn);
 
+        increaseQuantityBtn = rootView.findViewById(R.id.increaseQuantityBtn);
+        decreaseQuantityBtn = rootView.findViewById(R.id.decreaseQuantityBtn);
+        textViewQuantity = rootView.findViewById(R.id.textViewQuantity);
+
+        addToCartBtn = rootView.findViewById(R.id.addToCartBtn);
+
     }
 
 
     private void addEvents() {
         closeBottomSheetEvent();
         toggleAddToWishlist();
+        selectQuantity();
+        addToCart();
+    }
+
+    private void renderPreviewPrice() {
+        // render preview price with condition: selectSize price + selectToppings price + product price + quantity
+        double sizePrice = selectedSize != null ? selectedSize.getSizePrice() : 0;
+        double toppingPrice = 0;
+        if (selectedToppings != null) {
+            for (ProductTopping topping : selectedToppings) {
+                toppingPrice += topping.getToppingPrice();
+            }
+        }
+
+
+        previewPrice = (sizePrice + toppingPrice + product.getPrice()) * quantity;
+
+        // render preview price -> setText to addToCartBtn
+        addToCartBtn.setText(Utils.formatVNCurrency(previewPrice) + " • Chọn" );
+    }
+
+    private void renderQuantity() {
+        textViewQuantity.setText(String.valueOf(quantity));
     }
 
     private void renderProduct() {
@@ -147,7 +190,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         // Render product sizes
         productSizesLayoutManager = new LinearLayoutManager(getContext());
         productSizesRecyclerView.setLayoutManager(productSizesLayoutManager);
-        productSizeAdapter = new ProductSizeAdapter(productSizes);
+        productSizeAdapter = new ProductSizeAdapter(productSizes, this);
         productSizesRecyclerView.setAdapter(productSizeAdapter);
     }
 
@@ -160,7 +203,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
         productToppingsLayoutManager = new LinearLayoutManager(getContext());
         productToppingsRecyclerView.setLayoutManager(productToppingsLayoutManager);
-        productToppingAdapter = new ProductToppingAdapter(productToppings);
+        productToppingAdapter = new ProductToppingAdapter(productToppings, this);
         productToppingsRecyclerView.setAdapter(productToppingAdapter);
     }
 
@@ -221,7 +264,6 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
 
     // REQUESTS
-
     private void getProductSizesRequest() {
         String url = Constants.API_URL + "/product/product-sizes/" + product.getId();
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -257,6 +299,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
                             // TODO: Update your UI here
                             renderProductSizes();
+                            renderPreviewPrice();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -305,6 +348,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
                             // TODO: Update your UI here
                             renderProductToppings();
+                            renderPreviewPrice();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -457,6 +501,56 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         queue.add(stringRequest);
     }
 
+    private void addToCartRequest() {
+        String url = Constants.API_URL + "/cart";
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // String userId = user.getUid();
+        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        // close current bottom sheet
+                        dismiss();
+                        Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error response more gracefully (e.g., show user-friendly message)
+                Toast.makeText(getContext(), "Đã xảy ra lỗi: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                // Body params
+                params.put("product_id", String.valueOf(product.getId()));
+                params.put("user_id", userId);
+                params.put("quantity", String.valueOf(quantity));
+                if (selectedSize != null) {
+                    params.put("size_id", String.valueOf(selectedSize.getSizeId()));
+                }
+
+                if (selectedToppings != null) {
+                    for (ProductTopping topping : selectedToppings) {
+                        params.put("toppings[]", String.valueOf(topping.getId()));
+                    }
+                }
+
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
 
 
     // EVENTS
@@ -481,5 +575,51 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
                 }
             }
         });
+    }
+
+    private void selectQuantity() {
+        increaseQuantityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity++;
+                renderQuantity();
+                renderPreviewPrice();
+            }
+        });
+
+        decreaseQuantityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (quantity > 1) {
+                    quantity--;
+                    renderQuantity();
+                    renderPreviewPrice();
+                }
+            }
+        });
+    }
+
+    private void addToCart() {
+        addToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCartRequest();
+            }
+        });
+    }
+
+
+
+    // INTERFACE METHODS
+    @Override
+    public void onSizeItemClick(ProductSize _selectedSize) {
+        this.selectedSize = _selectedSize;
+        renderPreviewPrice();
+    }
+
+    @Override
+    public void onToppingItemClick(ArrayList<ProductTopping> selectedToppings) {
+        this.selectedToppings = selectedToppings;
+        renderPreviewPrice();
     }
 }

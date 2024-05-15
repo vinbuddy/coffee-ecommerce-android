@@ -3,11 +3,16 @@ package com.coffee.app.ui.menu;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,6 +63,9 @@ public class CategoryBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(R.color.overlay);
         return dialog;
     }
 
@@ -92,11 +100,14 @@ public class CategoryBottomSheetFragment extends BottomSheetDialogFragment {
 
         // Set min height to parent view
         CoordinatorLayout bottomSheetLayout = dialog.findViewById(R.id.categoryBottomSheetLayout);
+
+
         if (bottomSheetLayout != null) {
 //            Window window = dialog.getWindow();
 //            window.setBackgroundDrawableResource(R.color.black);
 //            bottomSheetBehavior.setPeekHeight((int) (0.9 * Resources.getSystem().getDisplayMetrics().heightPixels));
-            bottomSheetLayout.setMinimumHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+
+            //bottomSheetLayout.setMinimumHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
         }
 
 

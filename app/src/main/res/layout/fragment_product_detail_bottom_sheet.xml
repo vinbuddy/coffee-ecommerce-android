@@ -188,6 +188,7 @@
                     android:gravity="start|center_vertical">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/decreaseQuantityBtn"
                         style="@style/roundedCorner"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
@@ -203,6 +204,7 @@
                         app:iconTint="@color/primary" />
 
                     <TextView
+                        android:id="@+id/textViewQuantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
@@ -210,6 +212,7 @@
                         android:textSize="16sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/increaseQuantityBtn"
                         style="@style/roundedCorner"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
@@ -226,13 +229,14 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/addToCartBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="16sp"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/primary"
-                    android:text="70.000 đ • Thêm giỏ hàng"
+                    android:text="0 đ • Chọn"
                     app:cornerRadius="10dp" />
             </LinearLayout>
         </LinearLayout>

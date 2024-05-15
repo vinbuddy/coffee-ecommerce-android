@@ -78,6 +78,7 @@ public class HomeFragment extends Fragment {
 
     private void getProductRequest() {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
+        queue.getCache().clear();
         String url = Constants.API_URL + "/product";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -107,10 +108,11 @@ public class HomeFragment extends Fragment {
                                coffeeProductList.add(product);
                            }
 
-                           // After all products are added to the lists, render the products by category
-                           renderTeaProducts();
-                           renderCoffeeProducts();
                        }
+
+                       // After all products are added to the lists, render the products by category
+                       renderTeaProducts();
+                       renderCoffeeProducts();
                    } catch (Exception e) {
                        e.printStackTrace();
                        // Parse the response and update your UI

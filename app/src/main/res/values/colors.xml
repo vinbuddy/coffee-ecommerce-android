@@ -5,6 +5,6 @@
     <color name="primary">#e57905</color>
     <color name="primary_variant">#F7B750</color>
     <color name="danger">#E90B59</color>
-    <color name="overlay">#0000001a</color>
+    <color name="overlay">#80000000</color>
     <color name="heart">#f31260</color>
 </resources>
