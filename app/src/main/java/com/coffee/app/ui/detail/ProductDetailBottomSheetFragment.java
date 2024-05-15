@@ -368,7 +368,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         // String userId = user.getUid();
-        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+        String userId = Constants.TEMP_USER_ID;
         String url = Constants.API_URL + "/wishlist/" + userId;
 
 
@@ -433,7 +433,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         // String userId = user.getUid();
-        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+        String userId = Constants.TEMP_USER_ID;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -507,7 +507,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         // String userId = user.getUid();
-        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+        String userId = Constants.TEMP_USER_ID;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

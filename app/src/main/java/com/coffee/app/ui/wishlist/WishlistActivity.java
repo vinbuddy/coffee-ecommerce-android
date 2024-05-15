@@ -76,7 +76,7 @@ public class WishlistActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        String userId = user.getUid();
-        String userId = "IRAXCceD7USppEMMIdPU1At4vw63";
+        String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/wishlist/" + userId;
 
