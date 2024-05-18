@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/title_image"
+            android:id="@+id/imageStore"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:adjustViewBounds="true"
@@ -29,7 +29,6 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/txt_Logo"
                 android:text="The Coffee House"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,26 +37,27 @@
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/txt_Name"
+                android:id="@+id/textViewStoreName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="HCM Lê Văn Sĩ"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/text_view_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/text_view_name"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold" />-->
 
-            <TextView
-                android:id="@+id/txt_Address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chưa xác định"
-                android:textSize="16sp"
-                android:textColor="#757474"/>
+<!--            <TextView-->
+<!--                android:id="@+id/txt_Address"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Chưa xác định"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textColor="#757474"/>-->
 
         </LinearLayout>
     </LinearLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categoryBottomSheetLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="68dp">
+
+                <!-- Product Image-->
+                <ImageView
+                    android:id="@+id/imageStore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/store_sample_image" />
+
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:paddingHorizontal="10dp"
+                   android:orientation="vertical"
+                   >
+
+                   <TextView
+                       android:id="@+id/textViewName"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="8dp"
+                       android:gravity="start"
+                       android:text="HCM Lê Văn Sỹ"
+                       android:textColor="@color/black"
+                       android:textSize="22sp"
+                       android:textStyle="bold" />
+
+                   <TextView
+                       android:id="@+id/textViewTime"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:lineSpacingExtra="5sp"
+                       android:layout_marginTop="10dp"
+                       android:text="Giờ mở cửa: 7:00 - 21:00"
+                       android:textColor="#444"
+                       android:textSize="18sp" />
+
+                   <TextView
+                       android:id="@+id/textViewAddress"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="10dp"
+                       android:text="Địa chỉ: 123 Lê Văn Sỹ, P.10, Q.3, TP.HCM"
+                       android:textSize="18sp"/>
+
+                   <Button
+                       app:cornerRadius="10dp"
+                       android:id="@+id/btnViewMap"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:textColor="@color/white"
+                       android:backgroundTint="@color/primary"
+                       android:text="Xem vị trí cửa hàng trên google map"
+                       android:layout_marginTop="10dp"
+                       android:paddingHorizontal="10dp"
+                       />
+               </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+        <!-- Close btn -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/closeDetailBtn"
+            style="@style/roundedCorner"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="NULL"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:backgroundTint="#555"
+            app:cornerRadius="70dp"
+            android:textColor="@color/white"
+            app:iconTint="@color/white"
+            app:icon="@drawable/close_icon"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="25dp" />
+
+
+
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

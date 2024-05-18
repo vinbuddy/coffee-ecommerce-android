@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/headerLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchEditText"
+            android:id="@+id/searchStoreInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/search_icon"
@@ -66,10 +66,24 @@
             android:hint="Tìm kiếm cửa hàng"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            app:cornerRadius="10dp" />
+            app:cornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchStoreInput"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.core.widget.NestedScrollView
+
+    <Spinner
+        android:id="@+id/storeLocationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="10dp"
@@ -78,7 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/storeLocationSpinner"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
@@ -86,12 +100,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productRecyclerView"
+                android:id="@+id/storeRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/store_card_list_item"/>
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
