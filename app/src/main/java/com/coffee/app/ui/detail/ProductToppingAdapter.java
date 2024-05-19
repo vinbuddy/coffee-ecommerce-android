@@ -54,6 +54,9 @@ public class ProductToppingAdapter extends RecyclerView.Adapter<ProductToppingAd
     }
 
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if (productToppings.isEmpty()) {
+            return;
+        }
         ProductTopping productTopping = productToppings.get(position);
 
         holder.textViewToppingPrice.setText(Utils.formatVNCurrency(productTopping.getToppingPrice()));

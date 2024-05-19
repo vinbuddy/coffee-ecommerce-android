@@ -65,6 +65,7 @@ public class OthersFragment extends Fragment {
         handleLogout();
         navigateToLogin();
         navigateToWishlist();
+        navigateToCart();
     }
 
     private void renderLoginOrLogoutView() {

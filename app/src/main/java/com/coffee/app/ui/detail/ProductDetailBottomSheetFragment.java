@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -77,6 +78,8 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     ArrayList<ProductTopping> selectedToppings;
     ProductSize selectedSize;
     double previewPrice = 0;
+
+    static final float DEFAULT_BACKOFF_MULT = 1f;
 
     public ProductDetailBottomSheetFragment(Product product) {
         this.product = product;
@@ -547,6 +550,9 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
     }

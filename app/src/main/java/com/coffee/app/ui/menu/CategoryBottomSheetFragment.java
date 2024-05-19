@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,8 @@ public class CategoryBottomSheetFragment extends BottomSheetDialogFragment {
 
         Window window = dialog.getWindow();
         window.setBackgroundDrawableResource(R.color.overlay);
+
+
         return dialog;
     }
 
@@ -85,6 +88,7 @@ public class CategoryBottomSheetFragment extends BottomSheetDialogFragment {
         bottomSheetBehavior = BottomSheetBehavior.from((View)view.getParent());
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
+
         closeBottomSheet = (TextView) view.findViewById(R.id.closeBottomSheet);
 
         recyclerView  = view.findViewById(R.id.categoryListView);
@@ -103,11 +107,13 @@ public class CategoryBottomSheetFragment extends BottomSheetDialogFragment {
 
 
         if (bottomSheetLayout != null) {
-//            Window window = dialog.getWindow();
-//            window.setBackgroundDrawableResource(R.color.black);
-//            bottomSheetBehavior.setPeekHeight((int) (0.9 * Resources.getSystem().getDisplayMetrics().heightPixels));
-
-            //bottomSheetLayout.setMinimumHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+            // Set a temporary height for the BottomSheet
+            View parentView = (View) view.getParent();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int screenHeight = displayMetrics.heightPixels;
+            parentView.getLayoutParams().height = screenHeight / 2;
+            parentView.requestLayout();
         }
 
 
@@ -142,6 +148,12 @@ public class CategoryBottomSheetFragment extends BottomSheetDialogFragment {
         categoryAdapter = new CategoryAdapter(categories);
         clickOnCategoryItem();
         recyclerView.setAdapter(categoryAdapter);
+
+
+        // Update the height of the BottomSheet after data has been loaded
+        View parentView = (View) rootView.getParent();
+        parentView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        parentView.requestLayout();
     }
 
     private void getCategoriesRequest() {

@@ -21,9 +21,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <TextView
-                android:id="@+id/closeBottomSheet"
+                android:id="@+id/btnBack"
                 android:layout_width="27dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/arrow_back_icon"
                 android:gravity="center|center_vertical"
@@ -66,6 +69,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="115dp">
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCart"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         tools:listitem="@layout/cart_list_item" />
@@ -98,6 +102,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/textViewTotalItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="12dp"
@@ -107,11 +112,12 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/textViewTotalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:layout_weight="1"
-                        android:text="90.000 đ"
+                        android:text="0 ₫"
                         android:textAlignment="textEnd"
                         android:textColor="@color/primary"
                         android:textSize="16sp" />
@@ -126,6 +132,7 @@
                     android:padding="10dp">
 
                     <Button
+                        android:id="@+id/btnContinue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

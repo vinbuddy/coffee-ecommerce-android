@@ -63,6 +63,11 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     }
 
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        if (productSizes.isEmpty()) {
+            return;
+        }
+
         ProductSize productSize = productSizes.get(position);
 
         holder.textViewSizePrice.setText(Utils.formatVNCurrency(productSize.getSizePrice()));
