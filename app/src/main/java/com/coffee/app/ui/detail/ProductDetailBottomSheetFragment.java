@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.coffee.app.R;
+import com.coffee.app.model.CartBadgeViewModel;
 import com.coffee.app.model.Category;
 import com.coffee.app.model.Product;
 import com.coffee.app.model.ProductSize;
@@ -72,6 +74,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     Button addToCartBtn;
 
     ArrayList<Wishlist> wishlist = new ArrayList<>();
+    private CartBadgeViewModel cartBadgeViewModel;
 
     // Data
     int quantity = 1;
@@ -147,6 +150,8 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         textViewQuantity = rootView.findViewById(R.id.textViewQuantity);
 
         addToCartBtn = rootView.findViewById(R.id.addToCartBtn);
+
+        cartBadgeViewModel = new ViewModelProvider(requireActivity()).get(CartBadgeViewModel.class);
 
     }
 
@@ -516,9 +521,13 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        // Update cart badge
+                        cartBadgeViewModel.setCartBadge(cartBadgeViewModel.getCartBadge().getValue() + 1);
 
                         // close current bottom sheet
                         dismiss();
+
+
                         Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
 
                     }
@@ -628,4 +637,6 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         this.selectedToppings = selectedToppings;
         renderPreviewPrice();
     }
+
+
 }
