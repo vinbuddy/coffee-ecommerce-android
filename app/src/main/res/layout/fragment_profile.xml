@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/closeBottomSheet"
+                android:id="@+id/btnBack"
                 android:layout_width="27dp"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/arrow_back_icon"
@@ -79,6 +79,7 @@
                         app:cardCornerRadius="250dp">
 
                         <ImageView
+                            android:id="@+id/imageAvatar"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:scaleType="centerCrop"
@@ -87,6 +88,16 @@
                     </androidx.cardview.widget.CardView>
 
                 </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/btnRemoveAvatar"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gỡ hình đại diện"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textColor="@color/danger"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -101,7 +112,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:hint="Nguyễn Văn A"
+
+                        android:hint="Email"
+                        android:enabled="false"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:enabled="false"
+                            android:id="@+id/inputEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Tên đăng nhập"
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -112,31 +142,17 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:hint="nguyenvana@gmail.com"
-                        >
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/inputEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
 
 
                     <Button
-                        android:id="@+id/btnRegister"
+                        android:id="@+id/btnUpdateProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:height="60dp"
                         android:backgroundTint="@color/primary"
-                        android:text="Cập nhật tài khoản"
+                        android:text="Lưu thông tin"
                         android:textSize="16sp"
                         app:cornerRadius="7dp" />
 

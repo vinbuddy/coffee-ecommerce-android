@@ -172,8 +172,10 @@ public class HomeFragment extends Fragment {
 
     private void renderBanner() {
         List<SlideModel> bannerList = new ArrayList<>();
+        bannerList.add(new SlideModel(R.drawable.banner3, ScaleTypes.CENTER_CROP));
         bannerList.add(new SlideModel(R.drawable.banner1, ScaleTypes.CENTER_CROP));
         bannerList.add(new SlideModel(R.drawable.banner2, ScaleTypes.CENTER_CROP));
+
 
         if (bannerSlider != null ) {
             bannerSlider.setImageList(bannerList);

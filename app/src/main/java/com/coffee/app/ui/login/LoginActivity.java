@@ -190,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     checkExistUser(user, isExist -> {
                         if (isExist) {
-                            tvErrorMessage.setText("Tài khoản đã tồn tại");
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             createUserAccountRequest(user);
                         }

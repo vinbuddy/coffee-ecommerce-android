@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,26 +13,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.coffee.app.model.CartBadgeViewModel;
+import com.coffee.app.model.User;
+import com.coffee.app.model.UserViewModel;
+import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.home.HomeFragment;
 import com.coffee.app.ui.menu.MenuFragment;
 import com.coffee.app.ui.others.OthersFragment;
 import com.coffee.app.ui.store.StoreFragment;
 import com.coffee.app.ui.voucher.VoucherFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-//import android.widget.Button;
-//import android.widget.TextView;
-//import android.widget.Toast;
-//
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity {
-//    TextView textView;
-//    Button btnLogout;
-//    FirebaseAuth auth;
-    final int SPASH_TIME_OUT = 3000;
     BottomNavigationView bottomNav;
      FrameLayout frameLayout;
+     UserViewModel userViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,39 +43,52 @@ public class MainActivity extends AppCompatActivity {
 
         addControls();
         renderCurrentFragment();
-
-//        addControls();
-//
-//        renderCurrentFragment();
-
-//        auth = FirebaseAuth.getInstance();
-//
-//        FirebaseUser currentUser = auth.getCurrentUser();
-//        textView = findViewById(R.id.testTextView);
-//        btnLogout = findViewById(R.id.btnLogout);
-//
-//        textView.setText(currentUser.getDisplayName());
-//
-//        btnLogout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (currentUser.getDisplayName() != "") {
-//                    auth.signOut();
-//                    Toast.makeText(getApplicationContext(), "Logout successfully", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        getCurrentUserRequest();
     }
 
     private void addControls() {
-        //FirebaseUser currentUser = auth.getCurrentUser();
-//        textView = findViewById(R.id.testTextView);
-//        btnLogout = findViewById(R.id.btnLogout);
 
         bottomNav = findViewById(R.id.bottomNav);
         frameLayout = findViewById(R.id.frameLayout);
 
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+    }
 
+    private void getCurrentUserRequest() {
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String userId = user.getUid();
+        String userId = Constants.TEMP_USER_ID;
+        String url = Constants.API_URL + "/user/" + userId;
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(url, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                JSONObject data = jsonObject.getJSONObject("data");
+
+
+                String user_name = data.getString("user_name");
+                String id = data.getString("id");
+                String email = data.getString("email");
+                String avatar = data.getString("avatar");
+
+                User currentUser = new User();
+                currentUser.setId(id);
+                currentUser.setUserName(user_name);
+                currentUser.setEmail(email);
+                currentUser.setAvatar(avatar);
+
+                userViewModel.setCurrentUser(currentUser);
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }, error -> {
+            System.out.println(error);
+        });
+
+        queue.add(stringRequest);
     }
 
     private void renderCurrentFragment() {

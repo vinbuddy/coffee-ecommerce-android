@@ -20,6 +20,7 @@ import com.coffee.app.R;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.login.LoginActivity;
+import com.coffee.app.ui.profile.ProfileFragment;
 import com.coffee.app.ui.wishlist.WishlistActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -75,6 +76,7 @@ public class OthersFragment extends Fragment {
         navigateToLogin();
         navigateToWishlist();
         navigateToCart();
+        navigateToProfile();
     }
 
     private void renderLoginOrLogoutView() {
@@ -165,9 +167,9 @@ public class OthersFragment extends Fragment {
         textViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to the profile activity
-                // Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                // startActivity(intent);
+                // Load ProfileFragment at OthersFragment
+                ProfileFragment profileFragment = new ProfileFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, profileFragment).commit();
             }
         });
     }
