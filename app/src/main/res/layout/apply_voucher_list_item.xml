@@ -31,23 +31,41 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="14dp"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/tv_name_cus_voucher"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                android:text="Name Voucher" />
-
-            <TextView
-                android:id="@+id/tv_exp_cus_voucher"
-                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_name_cus_voucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:text="Name Voucher" />
+                <TextView
+                    android:id="@+id/tv_exp_cus_voucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EXP" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EXP" />
+                android:layout_gravity="center_vertical">
+                <Button
+                    android:id="@+id/btnApplyVoucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#FDEDD3"
+                    android:text="Sử dụng"
+                    android:textColor="@color/primary" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

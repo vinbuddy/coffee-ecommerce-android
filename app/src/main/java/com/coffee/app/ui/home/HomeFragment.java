@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment {
 
     private void getProductRequest() {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.getCache().clear();
         String url = Constants.API_URL + "/product";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

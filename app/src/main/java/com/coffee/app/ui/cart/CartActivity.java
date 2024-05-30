@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -34,6 +35,7 @@ import com.coffee.app.model.Cart;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
+import com.coffee.app.ui.checkout.CheckoutActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -80,6 +82,7 @@ public class CartActivity extends AppCompatActivity {
 
     private void addEvents() {
         backPrevious();
+        goToCheckout();
     }
 
     private void cartEvents() {
@@ -183,6 +186,17 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+    }
+
+    private void goToCheckout() {
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+                startActivity(intent);
+
             }
         });
     }

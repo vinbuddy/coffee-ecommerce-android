@@ -1,32 +1,38 @@
-package com.coffee.app.ui.voucher;
+package com.coffee.app.ui.checkout;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.Window;
+import android.widget.ImageButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.coffee.app.R;
 import com.coffee.app.model.Voucher;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.VolleySingleon;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.coffee.app.ui.voucher.VoucherAdapter;
+import com.coffee.app.ui.voucher.VoucherDetailBottomSheetFragment;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,18 +41,35 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VoucherFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    List<Voucher> listVoucher = new ArrayList<>();
-    VoucherAdapter voucherAdapter;
-    RequestQueue requestQueue;
+public class ApplyVoucherBottomSheetFragment extends BottomSheetDialogFragment {
+
+    BottomSheetDialog dialog;
     View rootView;
-    TextView textViewCartBadge;
+    RecyclerView recyclerView;
+    ApplyVoucherAdapter applyVoucherAdapter;
 
-    public VoucherFragment() {
+    RequestQueue requestQueue;
+
+    ImageButton btnClose;
+
+    List<Voucher> listVoucher = new ArrayList<>();
+
+    public ApplyVoucherBottomSheetFragment() {
         // Required empty public constructor
     }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(R.color.overlay);
+
+        return dialog;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,19 +80,33 @@ public class VoucherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_voucher, container, false);
+        rootView =  inflater.inflate(R.layout.fragment_apply_voucher_bottom_sheet, container, false);
 
         addControls();
-        getTotalCartItemsRequest();
-
-        addEvents();
         fetchVouchers();
+        addEvents();
 
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Set min height to parent view
+        CoordinatorLayout bottomSheetLayout = dialog.findViewById(R.id.applyVoucherBottomSheetLayout);
+        if (bottomSheetLayout != null) {
+            // Set a temporary height for the BottomSheet
+            View parentView = (View) view.getParent();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int screenHeight = displayMetrics.heightPixels;
+            parentView.getLayoutParams().height = (int) (screenHeight / (1.5));
+            parentView.requestLayout();
+        }
+    }
+
     private void addControls() {
-        textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.voucherRecyclerView);
         recyclerView.hasFixedSize();
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -77,6 +114,8 @@ public class VoucherFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         requestQueue = VolleySingleon.getmInstance(getContext()).getRequestQueue();
+
+        btnClose = rootView.findViewById(R.id.btnClose);
     }
 
     void fetchVouchers() {
@@ -109,9 +148,9 @@ public class VoucherFragment extends Fragment {
                                 listVoucher.add(voucher);
                             }
 
-                            voucherAdapter = new VoucherAdapter(getContext(), listVoucher);
+                            applyVoucherAdapter = new ApplyVoucherAdapter(getContext(), listVoucher);
                             showVoucherDetail();
-                            recyclerView.setAdapter(voucherAdapter);
+                            recyclerView.setAdapter(applyVoucherAdapter);
 
 
                         } catch (JSONException e) {
@@ -134,13 +173,11 @@ public class VoucherFragment extends Fragment {
     }
 
     private void addEvents() {
-        //showCategoryBottomSheet();
-
-        //Search();
+        closeBottomSheetEvent();
 
     }
     void showVoucherDetail() {
-        voucherAdapter.setOnItemClickListener(new VoucherAdapter.OnItemClickListener() {
+        applyVoucherAdapter.setOnItemClickListener(new ApplyVoucherAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Voucher voucher) {
                 VoucherDetailBottomSheetFragment voucherDetailBottomSheetFragment = new VoucherDetailBottomSheetFragment(voucher);
@@ -149,29 +186,12 @@ public class VoucherFragment extends Fragment {
         });
     }
 
-    private void getTotalCartItemsRequest() {
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
-
-        String url = Constants.API_URL + "/cart/total/" + userId;
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response -> {
-                    // Handle the response
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        int totalItems = jsonObject.getInt("data");
-                        textViewCartBadge.setText(String.valueOf(totalItems));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-            Toast.makeText(getActivity(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+    void closeBottomSheetEvent() {
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
         });
-
-        queue.add(stringRequest);
     }
 }
