@@ -1,6 +1,7 @@
 package com.coffee.app.ui.checkout;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +30,7 @@ import com.coffee.app.R;
 import com.coffee.app.model.Voucher;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.VolleySingleon;
+import com.coffee.app.ui.menu.CategoryBottomSheetFragment;
 import com.coffee.app.ui.voucher.VoucherAdapter;
 import com.coffee.app.ui.voucher.VoucherDetailBottomSheetFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -118,7 +121,7 @@ public class ApplyVoucherBottomSheetFragment extends BottomSheetDialogFragment {
         btnClose = rootView.findViewById(R.id.btnClose);
     }
 
-    void fetchVouchers() {
+    private void fetchVouchers() {
         String url = Constants.API_URL + "/voucher";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -150,6 +153,7 @@ public class ApplyVoucherBottomSheetFragment extends BottomSheetDialogFragment {
 
                             applyVoucherAdapter = new ApplyVoucherAdapter(getContext(), listVoucher);
                             showVoucherDetail();
+                            applyVoucher();
                             recyclerView.setAdapter(applyVoucherAdapter);
 
 
@@ -172,6 +176,16 @@ public class ApplyVoucherBottomSheetFragment extends BottomSheetDialogFragment {
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void applyVoucher() {
+        applyVoucherAdapter.setOnApplyVoucherClickListener(new ApplyVoucherAdapter.OnApplyVoucherClickListener() {
+            @Override
+            public void onItemClick(Voucher voucher) {
+//                Toast.makeText(getContext(), voucher.getVoucher_name(), Toast.LENGTH_SHORT).show();
+                applyVoucherListener.onApplyVoucher(voucher);
+                dismiss();
+            }
+        });
+    }
     private void addEvents() {
         closeBottomSheetEvent();
 
@@ -194,4 +208,23 @@ public class ApplyVoucherBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
     }
+
+
+
+    public interface OnApplyVoucherListener {
+        void onApplyVoucher(Voucher voucher);
+    }
+
+    private OnApplyVoucherListener applyVoucherListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            applyVoucherListener = (OnApplyVoucherListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Parent fragment must implement OnItemClickListener");
+        }
+    }
+
 }

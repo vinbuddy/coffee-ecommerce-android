@@ -22,6 +22,7 @@ import com.coffee.app.model.UserViewModel;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.home.HomeFragment;
 import com.coffee.app.ui.menu.MenuFragment;
+import com.coffee.app.ui.order.OrderFragment;
 import com.coffee.app.ui.others.OthersFragment;
 import com.coffee.app.ui.store.StoreFragment;
 import com.coffee.app.ui.voucher.VoucherFragment;
@@ -42,7 +43,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addControls();
-        renderCurrentFragment();
+
+        if (getIntent()!= null && getIntent().hasExtra("open_fragment")) {
+            String fragmentName = getIntent().getStringExtra("open_fragment");
+            renderSpecificFragment(fragmentName);
+            getIntent().removeExtra("open_fragment");
+        } else {
+            renderCurrentFragment();
+        }
+
         getCurrentUserRequest();
     }
 
@@ -116,6 +125,24 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new HomeFragment(), true);
     }
 
+    private void renderSpecificFragment(String fragmentName) {
+        if (fragmentName.equals("HomeFragment")) {
+            loadFragment(new HomeFragment(), false);
+        } else if (fragmentName.equals("MenuFragment")) {
+            loadFragment(new MenuFragment(), false);
+        } else if (fragmentName.equals("StoreFragment")) {
+            loadFragment(new StoreFragment(), false);
+        } else if (fragmentName.equals("VoucherFragment")) {
+            loadFragment(new VoucherFragment(), false);
+        } else if (fragmentName.equals("OrderFragment")) {
+            loadFragment(new OrderFragment(), false);
+        }
+        else {
+            loadFragment(new OthersFragment(), false);
+
+        }
+
+    }
     void loadFragment(Fragment fragment, boolean isAppInit) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
