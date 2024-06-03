@@ -28,6 +28,7 @@ import com.coffee.app.MainActivity;
 import com.coffee.app.R;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.interfaces.Authentication;
+import com.coffee.app.ui.register.RegisterActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -124,6 +125,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
+
+        tvRegisterRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
     }
 
     @Override
@@ -183,6 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                     AuthResult result = task.getResult();
                     FirebaseUser user = result.getUser();
 
+
                     if (user == null) {
                         tvErrorMessage.setText("Đăng nhập thất bại");
                         return;
@@ -192,14 +201,16 @@ public class LoginActivity extends AppCompatActivity {
                         if (isExist) {
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
+                            tvErrorMessage.setText(user.getEmail());
+                            //Toast.makeText(LoginActivity.this, user.getEmail(), Toast.LENGTH_SHORT).show();
                             createUserAccountRequest(user);
                         }
                     });
 
-
                 } else {
                     // When task is unsuccessful
-                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    tvErrorMessage.setText(task.getException().getMessage());
+                    //Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -239,7 +250,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void createUserAccountRequest(FirebaseUser userInfo) {
+    private void createUserAccountRequest(FirebaseUser _userInfo) {
+
+        GoogleSignInAccount userInfo = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
+
+
         // URL of your server-side script that handles account creation
         String url = Constants.API_URL + "/auth/create-user-account";
         // Create a new user account
@@ -248,22 +263,23 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
-                        Toast.makeText(getApplicationContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } catch (Exception e) {
-
+                        tvErrorMessage.setText(e.getMessage());
                     }
                 }, error -> {
-            Toast.makeText(getApplicationContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<>();
-                param.put("id", userInfo.getUid());
-                param.put("name", userInfo.getDisplayName());
+
+                param.put("id", userInfo.getId());
+                param.put("email", userInfo.getEmail() != null ? userInfo.getEmail() : "");
+                param.put("user_name", userInfo.getDisplayName());
                 param.put("avatar", String.valueOf(userInfo.getPhotoUrl()));
-                param.put("name", userInfo.getDisplayName());
                 param.put("account_type", "google");
 
                 return param;
@@ -299,7 +315,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }, error -> {
             // Handle error
-            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            tvErrorMessage.setText(error.getMessage());
         });
 
         queue.add(stringRequest);

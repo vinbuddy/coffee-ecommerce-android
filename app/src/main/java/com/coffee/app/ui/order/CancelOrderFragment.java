@@ -151,10 +151,12 @@ public class CancelOrderFragment extends Fragment {
                                     cartItem.setProductName(cartItemObject.getString("product_name"));
                                     cartItem.setProductPrice(cartItemObject.getDouble("product_price"));
                                     cartItem.setProductImage(cartItemObject.getString("product_image"));
-                                    cartItem.setSizeName(cartItemObject.getString("size_name"));
-                                    cartItem.setSizePrice(cartItemObject.getDouble("size_price"));
 
-                                    cartItem.setQuantity(cartItemObject.getInt("quantity"));
+                                    if (cartItemObject.getString("size_name") != null) {
+                                        cartItem.setSizeName(cartItemObject.getString("size_name"));
+                                        cartItem.setSizePrice(cartItemObject.getDouble("size_price"));
+                                    }
+
                                     cartItem.setOrderItemPrice(cartItemObject.getDouble("order_item_price"));
 
                                     // Using optJSONArray instead of getJSONArray to avoid JSONException

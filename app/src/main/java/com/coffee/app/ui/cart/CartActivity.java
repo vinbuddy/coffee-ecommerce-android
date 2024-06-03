@@ -228,11 +228,13 @@ public class CartActivity extends AppCompatActivity {
                                 cartItem.setProductPrice(cartItemObject.getDouble("product_price"));
                                 cartItem.setProductStatus(cartItemObject.getInt("product_status"));
                                 cartItem.setProductImage(cartItemObject.getString("product_image"));
-                                cartItem.setSizeId(cartItemObject.getInt("size_id"));
-                                cartItem.setSizeName(cartItemObject.getString("size_name"));
-                                cartItem.setSizePrice(cartItemObject.getDouble("size_price"));
 
-                                cartItem.setQuantity(cartItemObject.getInt("quantity"));
+                                if (cartItemObject.getString("size_name") != null) {
+                                    cartItem.setSizeId(cartItemObject.getInt("size_id"));
+                                    cartItem.setSizeName(cartItemObject.getString("size_name"));
+                                    cartItem.setSizePrice(cartItemObject.getDouble("size_price"));
+                                }
+
                                 cartItem.setOrderItemPrice(cartItemObject.getDouble("order_item_price"));
 
                                 // Using optJSONArray instead of getJSONArray to avoid JSONException

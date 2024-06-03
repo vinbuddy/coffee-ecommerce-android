@@ -40,7 +40,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
         holder.name.setText(cartItem.getProductName());
         holder.price.setText(Utils.formatVNCurrency(cartItem.getOrderItemPrice()));
-        holder.quantitySize.setText("x" + cartItem.getQuantity() + ", " + cartItem.getSizeName());
+
+        if (cartItem.getSizeName() == null) {
+            holder.quantitySize.setText("x" + cartItem.getQuantity());
+        } else {
+            holder.quantitySize.setText("x" + cartItem.getQuantity() + ", " + cartItem.getSizeName());
+        }
+
+        //holder.quantitySize.setText("x" + cartItem.getQuantity() + ", " + cartItem.getSizeName());
         Picasso.get().load(cartItem.getProductImage()).into(holder.image);
 
         if(cartItem.getToppings() != null && cartItem.getToppings().size() > 0){
