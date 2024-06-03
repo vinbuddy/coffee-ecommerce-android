@@ -9,14 +9,18 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.coffee.app.R;
+import com.coffee.app.ui.others.OthersFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class OrderFragment extends Fragment {
 
     TabLayout tabOrder;
     View rootView;
+
+    TextView btnBack;
 
     public OrderFragment() {
         // Required empty public constructor
@@ -41,13 +45,24 @@ public class OrderFragment extends Fragment {
 
     private void addControls() {
         tabOrder = rootView.findViewById(R.id.tabOrder);
+        btnBack = rootView.findViewById(R.id.btnBack);
     }
 
 
     private void addEvents() {
         renderOrderTab();
+        backPrevious();
     }
 
+    private void backPrevious() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OthersFragment fragment = new OthersFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
+            }
+        });
+    }
 
     private void renderOrderTab() {
         tabOrder.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

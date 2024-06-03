@@ -22,7 +22,36 @@ public class Order {
     private ArrayList<Cart> orderItems;
     private boolean isReviewed;
 
+    private String userName;
+    private String email;
+    private String avatar;
+
+
     // Getters and Setters
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     // Constructors
     public Order() {
@@ -31,7 +60,7 @@ public class Order {
     public Order(String id, String userId, double totalPayment, String paymentMethod, String orderStatus,
                  String orderType, String orderDate, String orderNote, double shippingCost, String receiverName,
                  String phoneNumber, String address, int storeId, int voucherId, String voucherName, String storeName,
-                 ArrayList<Cart> orderItems, boolean isReviewed) {
+                 ArrayList<Cart> orderItems, boolean isReviewed, String userName, String email, String avatar) {
         this.id = id;
         this.userId = userId;
         this.totalPayment = totalPayment;
@@ -50,6 +79,9 @@ public class Order {
         this.storeName = storeName;
         this.orderItems = orderItems;
         this.isReviewed = isReviewed;
+        this.userName = userName;
+        this.email = email;
+        this.avatar = avatar;
     }
 
     // Getters and Setters

@@ -24,6 +24,7 @@ import com.coffee.app.model.Cart;
 import com.coffee.app.model.Order;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.cart.CartAdapter;
+import com.coffee.app.ui.order.detail.OrderDetailBottomSheetFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -83,6 +84,16 @@ public class CancelOrderFragment extends Fragment {
         orderAdapter = new OrderAdapter(completedOrders);
         recyclerView.setAdapter(orderAdapter);
 
+    }
+
+    private void showOrderDetail() {
+        orderAdapter.setOnItemClickListener(new OrderAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Order order) {
+                OrderDetailBottomSheetFragment orderDetailBottomSheetFragment = new OrderDetailBottomSheetFragment(order);
+                orderDetailBottomSheetFragment.show(getParentFragmentManager(), orderDetailBottomSheetFragment.getTag());
+            }
+        });
     }
 
     private void getUserOrdersRequest() {
@@ -166,13 +177,14 @@ public class CancelOrderFragment extends Fragment {
                                     orderItems.add(cartItem);
                                 }
 
-                                Order order = new Order(id, userId, totalPayment, paymentMethod, orderStatus, orderType, orderDate, orderNote, shippingCost, receiverName, phoneNumber, address, storeId, voucherId, voucherName, storeName, orderItems, isReviewed);
+                                Order order = new Order(id, userId, totalPayment, paymentMethod, orderStatus, orderType, orderDate, orderNote, shippingCost, receiverName, phoneNumber, address, storeId, voucherId, voucherName, storeName, orderItems, isReviewed, userName, email, avatar);
 
                                 orders.add(order);
 
                             }
 
                             renderOrders();
+                            showOrderDetail();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

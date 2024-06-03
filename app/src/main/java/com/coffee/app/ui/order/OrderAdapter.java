@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.coffee.app.R;
 import com.coffee.app.model.Cart;
 import com.coffee.app.model.Order;
+import com.coffee.app.model.Voucher;
 import com.coffee.app.shared.Utils;
+import com.coffee.app.ui.checkout.ApplyVoucherAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.squareup.picasso.Picasso;
@@ -26,6 +28,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     public OrderAdapter(ArrayList<Order> orders) {
         this.orders = orders;
+    }
+
+
+    private OrderAdapter.OnItemClickListener onItemClickListener;
+    public interface OnItemClickListener {
+        void onItemClick(Order order);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @Override
@@ -64,6 +76,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         }
 
 
+        // Event
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onItemClick(order);
+            }
+        });
     }
 
     @Override
