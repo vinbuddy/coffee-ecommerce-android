@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/closeBottomSheet"
+                android:id="@+id/closeBtn"
                 android:layout_width="27dp"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/arrow_back_icon"
@@ -49,6 +49,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

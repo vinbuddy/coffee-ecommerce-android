@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.coffee.app.R;
 import com.coffee.app.model.Cart;
+import com.coffee.app.model.Order;
 import com.coffee.app.model.ProductTopping;
 import com.coffee.app.model.Store;
 import com.coffee.app.model.Voucher;
@@ -38,6 +40,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -426,10 +429,8 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
 
                 if (paymentMethod == "cash") {
                     createOrderWithCashRequest();
-                } else if (paymentMethod == "momo") {
-
                 } else {
-
+                    createOrderWithOnlinePayment();
                 }
             }
         });
@@ -536,6 +537,52 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
         queue.add(jsonObjectRequest);
     }
 
+    private Order createOrderInfo() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // String userId = user.getUid();
+        String userId = Constants.TEMP_USER_ID;
+
+
+        Order order = new Order();
+
+
+        order.setId(Utils.generateOrderId());
+        order.setUserId(userId);
+        order.setPaymentMethod(paymentMethod);
+        order.setOrderStatus("Đang chờ");
+        order.setOrderType("online");
+        order.setShippingCost((int)deliveryFee);
+        order.setTotalPayment((int)totalPayment);
+        order.setOrderNote(inputOrderNote.getText().toString());
+        order.setAddress(inputAddress.getText().toString());
+        order.setReceiverName(inputReceiverName.getText().toString());
+        order.setPhoneNumber(inputPhoneNumber.getText().toString());
+        order.setStoreId(selectedStore.getId());
+
+        if (currentVoucher != null) {
+            order.setVoucherId(currentVoucher.getId());
+        }
+
+        order.setOrderItems(cart);
+
+
+        return order;
+    }
+
+    private void createOrderWithOnlinePayment() {
+        Order order = createOrderInfo();
+        Gson gson = new Gson();
+        String orderJson = gson.toJson(order);
+        String orderItems = gson.toJson(cart);
+
+
+        // Navigate to OnlineCheckoutActivity
+        Intent intent = new Intent(getApplicationContext(), OnlineCheckoutActivity.class);
+        intent.putExtra("orderInfo", orderJson);
+        intent.putExtra("orderItems", orderItems);
+
+        startActivity(intent);
+    }
 
     @Override
     public void onApplyVoucher(Voucher voucher) {
