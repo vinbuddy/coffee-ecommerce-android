@@ -1,5 +1,6 @@
 package com.coffee.app.ui.checkout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -25,8 +26,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.coffee.app.MainActivity;
 import com.coffee.app.R;
 import com.coffee.app.model.Cart;
+import com.coffee.app.model.CurrentOrder;
 import com.coffee.app.model.Order;
 import com.coffee.app.model.ProductTopping;
 import com.coffee.app.model.Store;
@@ -34,12 +37,17 @@ import com.coffee.app.model.Voucher;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
 import com.coffee.app.ui.cart.CartAdapter;
+import com.coffee.app.ui.order.OrderFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -446,14 +454,15 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
         // String userId = user.getUid();
         String userId = Constants.TEMP_USER_ID;
 
+        String orderId = Utils.generateOrderId();
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
 
                         // Send request to firebase realtime to create current order
-
+                        initOrderToRealtimeDatabase(orderId);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -466,7 +475,7 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
                 Map<String, Object> params = new HashMap<>();
 
                 // Body params
-                params.put("order_id", Utils.generateOrderId());
+                params.put("order_id", orderId);
                 params.put("user_id", userId);
                 params.put("payment_method", paymentMethod);
                 params.put("order_status", "Đang chờ");
@@ -582,6 +591,56 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
         intent.putExtra("orderItems", orderItems);
 
         startActivity(intent);
+    }
+
+    private void initOrderToRealtimeDatabase(String orderId) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // String userId = user.getUid();
+        String userId = Constants.TEMP_USER_ID;
+        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders");
+
+        Map<String, Map<String, String>>  statuses = new HashMap<>();
+        Map<String, String> status = new HashMap<>();
+        status.put("status", "Đang chờ");
+        status.put("time", Utils.getCurrentDateTimeString());
+        statuses.put("Đang chờ", status);
+
+        Map<String, Object> initOrderData = new HashMap<>();
+        initOrderData.put("isCompleted", false);
+        initOrderData.put("userId", userId);
+        initOrderData.put("statuses", statuses);
+
+        orderRef.child(orderId).setValue(initOrderData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                    Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("open_fragment", "OrderFragment");
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi tạo đơn hàng (realtime)", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+//        orderRef.setValue(initOrderData).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//
+//                    Toast.makeText(getApplicationContext(), "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
+//
+//                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                    intent.putExtra("open_fragment", "OrderFragment");
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi tạo đơn hàng (realtime)", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
 
     @Override

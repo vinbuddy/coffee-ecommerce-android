@@ -87,4 +87,18 @@ public class Utils {
 
         return formattedDateTime;
     }
+
+
+    public static String getCurrentDateTimeString() {
+        // Create a new Date object
+        Date currentDate = new Date();
+
+        // Create a SimpleDateFormat object with the desired date format
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the current date
+        String formattedDate = sdf.format(currentDate);
+
+        return formattedDate; // Output: YYYY-MM-DD HH:mm:ss
+    }
 }
