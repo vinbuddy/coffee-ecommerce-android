@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister;
     FirebaseAuth auth;
     ImageView imageLogo;
+
+    ProgressBar loadingBar;
 
 
 
@@ -91,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvLoginRedirect = findViewById(R.id.tvLoginRedirect);
         imageLogo = findViewById(R.id.imageLogo);
+        loadingBar = findViewById(R.id.loadingBar);
     }
 
     private void registerUser() {
@@ -99,6 +103,10 @@ public class RegisterActivity extends AppCompatActivity {
             String username = inputName.getText().toString().trim();
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
+
+
+            loadingBar.setVisibility(View.VISIBLE);
+
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -107,7 +115,10 @@ public class RegisterActivity extends AppCompatActivity {
                         updateUserName(user, username);
                     } else {
                         tvErrorMessage.setText("Đăng ký thất bại");
+                        loadingBar.setVisibility(View.GONE);
                     }
+
+
                 }
             });
         }
@@ -124,6 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                     checkExistUser(user, isExist -> {
                         if (isExist) {
                             tvErrorMessage.setText("Tài khoản đã tồn tại");
+                            loadingBar.setVisibility(View.GONE);
                         } else {
                             createUserAccountRequest(user);
                         }
@@ -142,12 +154,14 @@ public class RegisterActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
+                        loadingBar.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } catch (Exception e) {
 
                     }
                 }, error -> {
+                    loadingBar.setVisibility(View.GONE);
                     tvErrorMessage.setText("Đăng ký thất bại");
                     Toast.makeText(getApplicationContext(), "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
 

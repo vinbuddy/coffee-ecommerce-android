@@ -11,6 +11,38 @@ public class CurrentOrder {
 
     private boolean isCompleted;
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public ArrayList<OrderStatus> getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(ArrayList<OrderStatus> statuses) {
+        this.statuses = statuses;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
     public CurrentOrder() {
     }
 

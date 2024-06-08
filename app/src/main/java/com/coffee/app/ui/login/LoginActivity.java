@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnGoogle;
     FirebaseAuth auth;
     GoogleSignInOptions googleOptions;
+    ProgressBar loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvRegisterRedirect = findViewById(R.id.tvRegisterRedirect);
         imageLogo = findViewById(R.id.imageLogo);
+        loadingBar = findViewById(R.id.loadingBar);
     }
 
     private boolean validateForm() {
@@ -183,6 +185,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginGoogle(GoogleSignInAccount account) {
+        loadingBar.setVisibility(View.VISIBLE);
+
         AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         auth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -207,9 +211,11 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
+
                 } else {
                     // When task is unsuccessful
                     tvErrorMessage.setText(task.getException().getMessage());
+                    loadingBar.setVisibility(View.GONE);
                     //Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -220,13 +226,11 @@ public class LoginActivity extends AppCompatActivity {
         boolean isValidForm = validateForm();
 
         if(isValidForm) {
+
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
 
-//            progressBarLoading.setVisibility(View.VISIBLE);
-//            progressBarLoading.setIndeterminate(false);
-//            progressBarLoading.setMax(1);
-//            progressBarLoading.setProgress(1);
+            loadingBar.setVisibility(View.VISIBLE);
 
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -242,8 +246,10 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }
 
+                        loadingBar.setVisibility(View.GONE);
                     } else {
                         tvErrorMessage.setText("Đăng nhập thất bại");
+                        loadingBar.setVisibility(View.GONE);
                     }
                 }
             });
@@ -263,10 +269,11 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
-                        //Toast.makeText(getApplicationContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                        loadingBar.setVisibility(View.GONE);
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } catch (Exception e) {
                         tvErrorMessage.setText(e.getMessage());
+                        loadingBar.setVisibility(View.GONE);
                     }
                 }, error -> {
             //Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();

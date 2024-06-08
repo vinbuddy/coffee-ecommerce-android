@@ -1,14 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.order.CurrentOrderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/orderInfoHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/border_shape"
+        android:padding="10dp"
+        >
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/textViewOrderId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đơn hàng hiện tại: "/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipOrderDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:text="Xem chi tiết"
+            android:textColor="@color/black"
+            app:chipCornerRadius="30dp"
+            app:chipStrokeWidth="1dp" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/viewPending"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/order_status_current_shape"
+        app:layout_constraintBottom_toBottomOf="@id/imgPending"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgPending"/>
+
+    <ImageView
+        android:id="@+id/imgPending"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/orrer_pending_icon"
+        app:layout_constraintStart_toEndOf="@+id/viewPending"
+        app:layout_constraintTop_toBottomOf="@id/orderInfoHeader"/>
+
+    <TextView
+        android:id="@+id/textViewPending"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Đang chờ xác nhận"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgPending"
+        app:layout_constraintTop_toTopOf="@+id/imgPending" />
+
+    <TextView
+        android:id="@+id/textViewPendingTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgPending"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPending" />
+
+
+<!--    -->
+    <View
+        android:id="@+id/viewProcessing"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/order_status_current_shape"
+        app:layout_constraintBottom_toBottomOf="@id/imgProcessing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgProcessing"/>
+
+    <ImageView
+        android:id="@+id/imgProcessing"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/order_cook_icon"
+        app:layout_constraintStart_toEndOf="@+id/viewPending"
+        app:layout_constraintTop_toBottomOf="@id/imgPending"/>
+
+    <TextView
+        android:id="@+id/textViewProcessing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Đang xử lý"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgProcessing"
+        app:layout_constraintTop_toTopOf="@+id/imgProcessing" />
+
+    <TextView
+        android:id="@+id/textViewProcessingTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgProcessing"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProcessing" />
+
+    <View
+        android:id="@+id/viewLine1"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="#757575"
+        app:layout_constraintStart_toStartOf="@id/viewProcessing"
+        app:layout_constraintTop_toBottomOf="@id/viewPending"
+        app:layout_constraintEnd_toEndOf="@id/viewProcessing"
+        app:layout_constraintBottom_toTopOf="@id/viewProcessing"/>
+
+<!--    -->
+
+    <View
+        android:id="@+id/viewShipping"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/order_status_current_shape"
+        app:layout_constraintBottom_toBottomOf="@id/imgShipping"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgShipping"/>
+
+    <ImageView
+        android:id="@+id/imgShipping"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/order_shipping_icon"
+        app:layout_constraintStart_toEndOf="@+id/viewProcessing"
+        app:layout_constraintTop_toBottomOf="@id/imgProcessing"/>
+
+    <TextView
+        android:id="@+id/textViewShipping"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Đang giao hàng"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgShipping"
+        app:layout_constraintTop_toTopOf="@+id/imgShipping" />
+
+    <TextView
+        android:id="@+id/textViewShippingTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgShipping"
+        app:layout_constraintTop_toBottomOf="@+id/textViewShipping" />
+
+    <View
+        android:id="@+id/viewLine2"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="#757575"
+        app:layout_constraintStart_toStartOf="@id/viewShipping"
+        app:layout_constraintTop_toBottomOf="@id/viewProcessing"
+        app:layout_constraintEnd_toEndOf="@id/viewShipping"
+        app:layout_constraintBottom_toTopOf="@id/viewShipping"/>
+
+<!--    -->
+
+
+    <View
+        android:id="@+id/viewCompleted"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/order_status_current_shape"
+        app:layout_constraintBottom_toBottomOf="@id/imgCompleted"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgCompleted"/>
+
+    <ImageView
+        android:id="@+id/imgCompleted"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/order_completed_icon"
+        app:layout_constraintStart_toEndOf="@+id/viewShipping"
+        app:layout_constraintTop_toBottomOf="@id/imgShipping"/>
+
+    <TextView
+        android:id="@+id/textViewCompleted"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Đã hoàn thành"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imgCompleted"
+        app:layout_constraintTop_toTopOf="@+id/imgCompleted" />
+
+    <TextView
+        android:id="@+id/textViewCompletedTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgCompleted"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCompleted" />
+
+    <View
+        android:id="@+id/viewLine3"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="#757575"
+        app:layout_constraintStart_toStartOf="@id/viewCompleted"
+        app:layout_constraintTop_toBottomOf="@id/viewShipping"
+        app:layout_constraintEnd_toEndOf="@id/viewCompleted"
+        app:layout_constraintBottom_toTopOf="@id/viewCompleted"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btnCancelOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Hủy đơn hàng"
+            android:backgroundTint="#fdd0df"
+            android:visibility="gone"
+            android:textColor="#f20059" />
+        <Button
+            android:id="@+id/btnCompleteOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Hoàn thành đơn hàng"
+            android:visibility="gone"
+            android:backgroundTint="#d1f4e0"
+            android:textColor="#00c44b" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
