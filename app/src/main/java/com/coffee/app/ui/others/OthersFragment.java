@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class OthersFragment extends Fragment {
     TextView textViewLogin, textViewLogout, textViewProfile, textViewOrder, textViewCart, textViewWishlist, textViewCartBadge;
     View rootView;
 
+    ImageButton btnCart;
     public OthersFragment() {
         // Required empty public constructor
     }
@@ -70,6 +72,7 @@ public class OthersFragment extends Fragment {
         textViewCart = (TextView) rootView.findViewById(R.id.textViewCart);
         textViewWishlist = (TextView) rootView.findViewById(R.id.textViewWishlist);
         textViewCartBadge = (TextView) rootView.findViewById(R.id.textViewCartBadge);
+        btnCart = (ImageButton) rootView.findViewById(R.id.btnCart);
     }
 
     private void addEvents() {
@@ -192,6 +195,14 @@ public class OthersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Navigate to the profile activity
+                 Intent intent = new Intent(getActivity(), CartActivity.class);
+                 startActivity(intent);
+            }
+        });
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                  Intent intent = new Intent(getActivity(), CartActivity.class);
                  startActivity(intent);
             }

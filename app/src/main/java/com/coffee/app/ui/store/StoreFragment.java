@@ -1,5 +1,6 @@
 package com.coffee.app.ui.store;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ import com.coffee.app.R;
 import com.coffee.app.model.Product;
 import com.coffee.app.model.Store;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.menu.ProductAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +55,8 @@ public class StoreFragment extends Fragment {
     TextView textViewCartBadge;
 
     View rootView;
+
+    ImageButton btnCart;
 
     ArrayList<Store> stores = new ArrayList<>();
 
@@ -91,6 +96,7 @@ public class StoreFragment extends Fragment {
         searchStoreInput = rootView.findViewById(R.id.searchStoreInput);
 
         textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
+        btnCart = rootView.findViewById(R.id.btnCart);
     }
 
     private void addEvents() {
@@ -98,6 +104,17 @@ public class StoreFragment extends Fragment {
         searchStores();
         selectStoreLocation();
         showStoreDetailBottomSheet();
+        navigateToCartActivity();
+    }
+
+    private void navigateToCartActivity() {
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getStoresRequest() {

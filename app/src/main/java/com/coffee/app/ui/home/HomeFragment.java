@@ -1,5 +1,6 @@
 package com.coffee.app.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.coffee.app.R;
 import com.coffee.app.model.CartBadgeViewModel;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
 import com.coffee.app.ui.menu.ProductAdapter;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -57,6 +60,8 @@ public class HomeFragment extends Fragment {
     ArrayList<Product> teaProductList = new ArrayList<>();
     ArrayList<Product> coffeeProductList = new ArrayList<>();
 
+    ImageButton btnCart;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -72,9 +77,20 @@ public class HomeFragment extends Fragment {
 
         getProductRequest();
         getTotalCartItemsRequest();
+        addEvents();
 
 
         return rootView;
+    }
+
+    private void addEvents() {
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void addControls() {
@@ -83,6 +99,7 @@ public class HomeFragment extends Fragment {
         recyclerViewTeaProducts = (RecyclerView) rootView.findViewById(R.id.teaProductRecyclerView);
         recyclerViewCoffeeProducts = (RecyclerView) rootView.findViewById(R.id.coffeeProductRecyclerView);
         textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
+        btnCart = rootView.findViewById(R.id.btnCart);
 
         cartBadgeViewModel = new ViewModelProvider(requireActivity()).get(CartBadgeViewModel.class);
         cartBadgeViewModel.getCartBadge().observe(getViewLifecycleOwner(), new Observer<Integer>() {

@@ -1,5 +1,6 @@
 package com.coffee.app.ui.menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ import com.coffee.app.model.CartBadgeViewModel;
 import com.coffee.app.model.Category;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +57,8 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
     TextInputEditText searchbox;
 
     CartBadgeViewModel cartBadgeViewModel;
+
+    ImageButton btnCart;
 
 
     public MenuFragment() {
@@ -94,6 +99,7 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
 
         searchbox = rootView.findViewById(R.id.searchEditText);
         textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
+        btnCart = rootView.findViewById(R.id.btnCart);
 
         cartBadgeViewModel = new ViewModelProvider(requireActivity()).get(CartBadgeViewModel.class);
         cartBadgeViewModel.getCartBadge().observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -108,7 +114,18 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
     private void addEvents() {
         showCategoryBottomSheet();
         searchProduct();
+        navigateToCartActivity();
 
+    }
+
+    private void navigateToCartActivity() {
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private  void searchProduct() {
