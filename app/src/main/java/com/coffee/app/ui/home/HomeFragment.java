@@ -31,6 +31,7 @@ import com.coffee.app.ui.menu.ProductAdapter;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment {
     ArrayList<Product> coffeeProductList = new ArrayList<>();
 
     ImageButton btnCart;
+    ShimmerFrameLayout skeletonTeaProductLayout, skeletonCoffeeProductLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -80,6 +82,8 @@ public class HomeFragment extends Fragment {
         addEvents();
 
 
+        skeletonTeaProductLayout.startShimmer();
+        skeletonCoffeeProductLayout.startShimmer();
         return rootView;
     }
 
@@ -100,6 +104,8 @@ public class HomeFragment extends Fragment {
         recyclerViewCoffeeProducts = (RecyclerView) rootView.findViewById(R.id.coffeeProductRecyclerView);
         textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
         btnCart = rootView.findViewById(R.id.btnCart);
+        skeletonTeaProductLayout = rootView.findViewById(R.id.skeletonTeaProductLayout);
+        skeletonCoffeeProductLayout = rootView.findViewById(R.id.skeletonCoffeeProductLayout);
 
         cartBadgeViewModel = new ViewModelProvider(requireActivity()).get(CartBadgeViewModel.class);
         cartBadgeViewModel.getCartBadge().observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -215,6 +221,10 @@ public class HomeFragment extends Fragment {
         teaProductAdapter = new TeaProductCardGridAdapter(teaProductList);
         recyclerViewTeaProducts.setAdapter(teaProductAdapter);
 
+        recyclerViewTeaProducts.setVisibility(View.VISIBLE);
+        skeletonTeaProductLayout.stopShimmer();
+        skeletonTeaProductLayout.setVisibility(View.GONE);
+
         teaProductAdapter.setOnItemClickListener(new TeaProductCardGridAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
@@ -222,6 +232,7 @@ public class HomeFragment extends Fragment {
                 productDetailBottomSheetFragment.show(getChildFragmentManager(), productDetailBottomSheetFragment.getTag());
             }
         });
+
 
     }
 
@@ -232,6 +243,10 @@ public class HomeFragment extends Fragment {
         recyclerViewCoffeeProducts.setLayoutManager(coffeeProductLayoutManager);
         coffeeProductAdapter = new CoffeeProductCardGridAdapter(coffeeProductList);
         recyclerViewCoffeeProducts.setAdapter(coffeeProductAdapter);
+
+        recyclerViewCoffeeProducts.setVisibility(View.VISIBLE);
+        skeletonCoffeeProductLayout.stopShimmer();
+        skeletonCoffeeProductLayout.setVisibility(View.GONE);
 
         coffeeProductAdapter.setOnItemClickListener(new CoffeeProductCardGridAdapter.OnItemClickListener() {
             @Override

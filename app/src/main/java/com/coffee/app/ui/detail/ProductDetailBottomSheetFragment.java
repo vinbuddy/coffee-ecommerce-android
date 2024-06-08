@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import com.coffee.app.model.Wishlist;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
 import com.coffee.app.ui.home.CoffeeProductCardGridAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -71,7 +73,11 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
     MaterialButton wishlistBtn, increaseQuantityBtn, decreaseQuantityBtn;
 
+    ProgressBar loadingBar;
+
     Button addToCartBtn;
+
+    ShimmerFrameLayout skeletonProductSizeLayout, skeletonProductToppingLayout;
 
     ArrayList<Wishlist> wishlist = new ArrayList<>();
     private CartBadgeViewModel cartBadgeViewModel;
@@ -115,6 +121,10 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         addControls();
+
+        skeletonProductSizeLayout.startShimmer();
+        skeletonProductToppingLayout.startShimmer();
+
         renderQuantity();
         renderProduct();
 
@@ -150,6 +160,9 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         textViewQuantity = rootView.findViewById(R.id.textViewQuantity);
 
         addToCartBtn = rootView.findViewById(R.id.addToCartBtn);
+        loadingBar = rootView.findViewById(R.id.loadingBar);
+        skeletonProductSizeLayout = rootView.findViewById(R.id.skeletonProductSizeLayout);
+        skeletonProductToppingLayout = rootView.findViewById(R.id.skeletonProductToppingLayout);
 
         cartBadgeViewModel = new ViewModelProvider(requireActivity()).get(CartBadgeViewModel.class);
 
@@ -193,6 +206,8 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
 
     private void renderProductSizes() {
         if(productSizes.size() == 0) {
+            skeletonProductSizeLayout.stopShimmer();
+            skeletonProductSizeLayout.setVisibility(View.GONE);
             return;
         }
         // Render product sizes
@@ -200,12 +215,18 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         productSizesRecyclerView.setLayoutManager(productSizesLayoutManager);
         productSizeAdapter = new ProductSizeAdapter(productSizes, this);
         productSizesRecyclerView.setAdapter(productSizeAdapter);
+
+        skeletonProductSizeLayout.stopShimmer();
+        skeletonProductSizeLayout.setVisibility(View.GONE);
+        productSizesRecyclerView.setVisibility(View.VISIBLE);
     }
 
 
     private void renderProductToppings() {
 
         if(productToppings.size() == 0) {
+            skeletonProductToppingLayout.stopShimmer();
+            skeletonProductToppingLayout.setVisibility(View.GONE);
             return;
         }
 
@@ -213,6 +234,10 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         productToppingsRecyclerView.setLayoutManager(productToppingsLayoutManager);
         productToppingAdapter = new ProductToppingAdapter(productToppings, this);
         productToppingsRecyclerView.setAdapter(productToppingAdapter);
+
+        skeletonProductToppingLayout.stopShimmer();
+        skeletonProductToppingLayout.setVisibility(View.GONE);
+        productToppingsRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private boolean isProductInWishList() {
@@ -436,6 +461,8 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     }
 
     private void addToWishlistRequest() {
+
+
         String url = Constants.API_URL + "/wishlist";
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
@@ -510,6 +537,8 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
     }
 
     private void addToCartRequest() {
+        loadingBar.setVisibility(View.VISIBLE);
+
         String url = Constants.API_URL + "/cart";
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
@@ -523,10 +552,9 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
                     public void onResponse(String response) {
                         // Update cart badge
                         cartBadgeViewModel.setCartBadge(cartBadgeViewModel.getCartBadge().getValue() + 1);
-
+                        loadingBar.setVisibility(View.GONE);
                         // close current bottom sheet
                         dismiss();
-
 
                         Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
 
@@ -535,6 +563,7 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Handle error response more gracefully (e.g., show user-friendly message)
+                loadingBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Đã xảy ra lỗi: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {

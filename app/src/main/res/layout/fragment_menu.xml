@@ -82,14 +82,35 @@
         app:layout_constraintTop_toBottomOf="@+id/searchInputLayout"
         app:layout_constraintVertical_bias="1.0">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/skeletonLayout">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/product_list_skeleton"/>
+                    <include layout="@layout/product_list_skeleton"/>
+                    <include layout="@layout/product_list_skeleton"/>
+                    <include layout="@layout/product_list_skeleton"/>
+                    <include layout="@layout/product_list_skeleton"/>
+                    <include layout="@layout/product_list_skeleton"/>
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 tools:listitem="@layout/product_card_list_item"/>
         </LinearLayout>
 

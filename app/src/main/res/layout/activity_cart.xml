@@ -68,10 +68,29 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingBottom="115dp">
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/skeletonLayout">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <include layout="@layout/cart_list_skeleton"/>
+                            <include layout="@layout/cart_list_skeleton"/>
+                            <include layout="@layout/cart_list_skeleton"/>
+                            <include layout="@layout/cart_list_skeleton"/>
+                            <include layout="@layout/cart_list_skeleton"/>
+                            <include layout="@layout/cart_list_skeleton"/>
+
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewCart"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         tools:listitem="@layout/cart_list_item" />
                 </LinearLayout>
 
@@ -85,7 +104,6 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
                 android:orientation="vertical">
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"

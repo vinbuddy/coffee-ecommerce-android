@@ -34,6 +34,7 @@ import com.coffee.app.model.Store;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.menu.ProductAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,6 +59,8 @@ public class StoreFragment extends Fragment {
 
     ImageButton btnCart;
 
+    ShimmerFrameLayout skeletonLayout;
+
     ArrayList<Store> stores = new ArrayList<>();
 
     public StoreFragment() {
@@ -75,6 +78,8 @@ public class StoreFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_store, container, false);
         addControls();
+
+        skeletonLayout.startShimmer();
 
         getStoresRequest();
         getTotalCartItemsRequest();
@@ -97,6 +102,7 @@ public class StoreFragment extends Fragment {
 
         textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
         btnCart = rootView.findViewById(R.id.btnCart);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
     }
 
     private void addEvents() {
@@ -214,6 +220,10 @@ public class StoreFragment extends Fragment {
         storeAdapter = new StoreAdapter(stores);
         recyclerView.setAdapter(storeAdapter);
 
+
+        skeletonLayout.startShimmer();
+        skeletonLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void initStoreLocationToSpinner() {

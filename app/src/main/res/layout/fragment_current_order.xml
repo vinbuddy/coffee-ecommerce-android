@@ -32,6 +32,7 @@
             android:textColor="@color/black"
             app:chipCornerRadius="30dp"
             app:chipStrokeWidth="1dp" />
+
     </LinearLayout>
 
 
@@ -265,14 +266,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
+        <ProgressBar
+            android:id="@+id/loadingBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/skeleton_bg_color" />
         <Button
             android:id="@+id/btnCancelOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Hủy đơn hàng"
-            android:backgroundTint="#fdd0df"
             android:visibility="gone"
+            android:backgroundTint="#fdd0df"
             android:textColor="#f20059" />
         <Button
             android:id="@+id/btnCompleteOrder"

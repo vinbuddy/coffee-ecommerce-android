@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,10 +13,52 @@
         android:textSize="18dp"
         android:padding="14dp" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/skeletonTeaProductLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_gravity="center">
+
+            <include
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" layout="@layout/product_card_grid_skeleton"/>
+            <include
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" layout="@layout/product_card_grid_skeleton"/>
+
+            <include
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" layout="@layout/product_card_grid_skeleton"/>
+            <include
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" layout="@layout/product_card_grid_skeleton"/>
+
+            <include
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" layout="@layout/product_card_grid_skeleton"/>
+            <include
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" layout="@layout/product_card_grid_skeleton"/>
+
+        </GridLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/teaProductRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         tools:listitem="@layout/product_card_grid_item"/>
 
 </LinearLayout>

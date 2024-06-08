@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:gravity="start">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/skeleton_bg_color"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        app:shapeAppearanceOverlay="@style/roundedCorner"
+        android:id="@+id/_productGridImage"/>
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/_productGridName"
+        android:background="@color/skeleton_bg_color"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginTop="6dp"/>
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/_productGridPrice"
+        android:background="@color/skeleton_bg_color"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>

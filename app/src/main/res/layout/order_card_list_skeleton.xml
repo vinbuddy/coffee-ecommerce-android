@@ -1,0 +1,57 @@
+<!-- res/layout/order_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center_vertical">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_weight="1">
+           <TextView
+               android:id="@+id/_textViewOrderId"
+               android:layout_width="150dp"
+               android:layout_height="wrap_content"
+               android:background="@color/skeleton_bg_color"
+               android:textSize="16sp"
+               android:textStyle="bold"
+               android:layout_marginBottom="5dp"/>
+
+           <TextView
+               android:id="@+id/_textViewOrderDate"
+               android:layout_width="100dp"
+               android:layout_height="wrap_content"
+               android:background="@color/skeleton_bg_color"
+               android:textSize="14sp"
+               android:layout_marginBottom="7dp"/>
+
+           <TextView
+               android:id="@+id/_textViewTotalPayment"
+               android:layout_width="100dp"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="7dp"
+               android:background="@color/skeleton_bg_color"
+               android:textSize="14sp" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center_vertical">
+           <TextView
+               android:layout_width="70dp"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="7dp"
+               android:background="@color/skeleton_bg_color"
+               android:textSize="14sp" />
+       </LinearLayout>
+   </LinearLayout>
+</LinearLayout>

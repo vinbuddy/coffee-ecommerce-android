@@ -81,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
-
                 <include layout="@layout/tea_product" />
             </LinearLayout>
 
@@ -90,7 +89,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
-
                 <include layout="@layout/coffee_product" />
             </LinearLayout>
         </LinearLayout>

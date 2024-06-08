@@ -7,4 +7,5 @@
     <color name="danger">#E90B59</color>
     <color name="overlay">#80000000</color>
     <color name="heart">#f31260</color>
+    <color name="skeleton_bg_color">#BFBEBE</color>
 </resources>

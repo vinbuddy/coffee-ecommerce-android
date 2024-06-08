@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class CurrentOrderFragment extends Fragment {
     CurrentOrder currentOrder;
     Order order;
     Chip chipOrderDetail;
+    ProgressBar loadingBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +92,7 @@ public class CurrentOrderFragment extends Fragment {
         btnCancelOrder = rootView.findViewById(R.id.btnCancelOrder);
         btnCompleteOrder = rootView.findViewById(R.id.btnCompleteOrder);
         chipOrderDetail = rootView.findViewById(R.id.chipOrderDetail);
+        loadingBar = rootView.findViewById(R.id.loadingBar);
     }
 
     private void addCurrentOrderEvents() {
@@ -118,6 +121,7 @@ public class CurrentOrderFragment extends Fragment {
 
     private void cancelOrderRequest() {
         // Request cancel order from server
+        loadingBar.setVisibility(View.VISIBLE);
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         String url = Constants.API_URL + "/order/edit-status/" + currentOrder.getOrderId();
@@ -127,6 +131,7 @@ public class CurrentOrderFragment extends Fragment {
             cancelOrderToFirebase();
         }, error -> {
             // Handle possible errors
+            loadingBar.setVisibility(View.GONE);
             Toast.makeText(getContext(), "Error Call API", Toast.LENGTH_SHORT).show();
         }) {
             @Override
@@ -142,6 +147,7 @@ public class CurrentOrderFragment extends Fragment {
 
     private void completeOrderRequest() {
         // Request cancel order from server
+        loadingBar.setVisibility(View.VISIBLE);
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         String url = Constants.API_URL + "/order/edit-status/" + currentOrder.getOrderId();
@@ -150,6 +156,7 @@ public class CurrentOrderFragment extends Fragment {
             completeOrderToFirebase();
         }, error -> {
             // Handle possible errors
+            loadingBar.setVisibility(View.GONE);
             Toast.makeText(getContext(), "Error Call API", Toast.LENGTH_SHORT).show();
         }) {
             @Override
@@ -170,9 +177,11 @@ public class CurrentOrderFragment extends Fragment {
         orderRef.child("isCompleted").setValue(false)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        loadingBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Đã hủy đơn hàng", Toast.LENGTH_SHORT).show();
                     } else {
                         // Handle failure
+                        loadingBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -186,9 +195,11 @@ public class CurrentOrderFragment extends Fragment {
         orderRef.child("isCompleted").setValue(true)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        loadingBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Đã hoàn thành đơn hàng", Toast.LENGTH_SHORT).show();
                     } else {
                         // Handle failure
+                        loadingBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
                     }
                 });

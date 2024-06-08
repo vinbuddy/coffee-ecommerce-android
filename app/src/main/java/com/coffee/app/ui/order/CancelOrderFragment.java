@@ -25,6 +25,7 @@ import com.coffee.app.model.Order;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.cart.CartAdapter;
 import com.coffee.app.ui.order.detail.OrderDetailBottomSheetFragment;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -41,6 +42,7 @@ public class CancelOrderFragment extends Fragment {
 
     RecyclerView recyclerView;
     OrderAdapter orderAdapter;
+    ShimmerFrameLayout skeletonLayout;
 
     public CancelOrderFragment() {
         // Required empty public constructor
@@ -57,6 +59,7 @@ public class CancelOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_cancel_order, container, false);
         addControls();
+        skeletonLayout.startShimmer();
         getUserOrdersRequest();
         return rootView;
     }
@@ -64,6 +67,7 @@ public class CancelOrderFragment extends Fragment {
     private void addControls() {
         // Add controls here
         recyclerView = rootView.findViewById(R.id.recyclerViewCanceledOrder);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
     }
 
 
@@ -83,6 +87,10 @@ public class CancelOrderFragment extends Fragment {
 
         orderAdapter = new OrderAdapter(completedOrders);
         recyclerView.setAdapter(orderAdapter);
+
+        skeletonLayout.stopShimmer();
+        skeletonLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
     }
 

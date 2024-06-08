@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
 import com.coffee.app.ui.checkout.CheckoutActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,6 +55,7 @@ public class CartActivity extends AppCompatActivity {
     Button btnContinue;
     CartAdapter cartAdapter;
 
+    ShimmerFrameLayout skeletonLayout;
 
     ArrayList<Cart> cart = new ArrayList<>();
 
@@ -62,6 +65,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         addControls();
+        skeletonLayout.startShimmer();
         getCartRequest();
         addEvents();
     }
@@ -76,6 +80,7 @@ public class CartActivity extends AppCompatActivity {
         textViewTotalItem = findViewById(R.id.textViewTotalItem);
         btnContinue = findViewById(R.id.btnContinue);
 
+        skeletonLayout = findViewById(R.id.skeletonLayout);
         recyclerView =  findViewById(R.id.recyclerViewCart);
 
     }
@@ -327,6 +332,10 @@ public class CartActivity extends AppCompatActivity {
 
         cartAdapter = new CartAdapter(cart);
         recyclerView.setAdapter(cartAdapter);
+
+        skeletonLayout.stopShimmer();
+        skeletonLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
         renderTotalItem();
         renderTotalPrice();

@@ -29,6 +29,7 @@ import com.coffee.app.model.Voucher;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.VolleySingleon;
 import com.coffee.app.ui.cart.CartActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -49,6 +50,8 @@ public class VoucherFragment extends Fragment {
     TextView textViewCartBadge;
     ImageButton btnCart;
 
+    ShimmerFrameLayout skeletonLayout;
+
     public VoucherFragment() {
         // Required empty public constructor
     }
@@ -65,6 +68,9 @@ public class VoucherFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_voucher, container, false);
 
         addControls();
+
+        skeletonLayout.startShimmer();
+
         getTotalCartItemsRequest();
 
         addEvents();
@@ -74,6 +80,7 @@ public class VoucherFragment extends Fragment {
     }
 
     private void addControls() {
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
         textViewCartBadge = rootView.findViewById(R.id.textViewCartBadge);
         btnCart = rootView.findViewById(R.id.btnCart);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.voucherRecyclerView);
@@ -118,6 +125,10 @@ public class VoucherFragment extends Fragment {
                             voucherAdapter = new VoucherAdapter(getContext(), listVoucher);
                             showVoucherDetail();
                             recyclerView.setAdapter(voucherAdapter);
+
+                            skeletonLayout.stopShimmer();
+                            skeletonLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
 
 
                         } catch (JSONException e) {

@@ -21,6 +21,7 @@ import com.coffee.app.R;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,6 +37,7 @@ public class WishlistActivity extends AppCompatActivity {
     List<Product> products = new ArrayList<>();
     TextView backBtn;
     WishlistAdapter wishlistAdapter;
+    ShimmerFrameLayout skeletonLayout;
 
 
     @Override
@@ -44,12 +46,14 @@ public class WishlistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wishlist);
 
         addControls();
+        skeletonLayout.startShimmer();
         getWishListRequest();
         addEvents();
     }
 
     private void addControls() {
         recyclerView = (RecyclerView) findViewById(R.id.wishlistRecyclerView);
+        skeletonLayout = (ShimmerFrameLayout) findViewById(R.id.skeletonLayout);
 
         recyclerView.hasFixedSize();
         recyclerView.addItemDecoration( new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -134,6 +138,10 @@ public class WishlistActivity extends AppCompatActivity {
     private void renderWishlist() {
         wishlistAdapter = new WishlistAdapter(getApplicationContext(), products);
         recyclerView.setAdapter(wishlistAdapter);
+
+        skeletonLayout.stopShimmer();
+        skeletonLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
 

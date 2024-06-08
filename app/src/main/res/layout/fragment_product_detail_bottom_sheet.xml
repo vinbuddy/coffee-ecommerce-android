@@ -100,11 +100,30 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/skeletonProductSizeLayout">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <include layout="@layout/product_sizes_skeleton"/>
+                            <include layout="@layout/product_sizes_skeleton"/>
+                            <include layout="@layout/product_sizes_skeleton"/>
+                            <include layout="@layout/product_sizes_skeleton"/>
+                            <include layout="@layout/product_sizes_skeleton"/>
+                            <include layout="@layout/product_sizes_skeleton"/>
+
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/productSizesRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/white"
+                        android:visibility="gone"
                         tools:listitem="@layout/product_sizes_item" />
                 </LinearLayout>
 
@@ -123,11 +142,30 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/skeletonProductToppingLayout">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <include layout="@layout/product_toppings_skeleton"/>
+                            <include layout="@layout/product_toppings_skeleton"/>
+                            <include layout="@layout/product_toppings_skeleton"/>
+                            <include layout="@layout/product_toppings_skeleton"/>
+                            <include layout="@layout/product_toppings_skeleton"/>
+                            <include layout="@layout/product_toppings_skeleton"/>
+
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/productToppingsRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/white"
+                        android:visibility="gone"
                         tools:listitem="@layout/product_toppings_item" />
                 </LinearLayout>
             </LinearLayout>
@@ -168,6 +206,15 @@
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/loadingBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                android:indeterminateTint="@color/primary" />
 
             <View
                 android:layout_width="match_parent"

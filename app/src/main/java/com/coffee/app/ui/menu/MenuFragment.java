@@ -35,6 +35,7 @@ import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,6 +60,7 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
     CartBadgeViewModel cartBadgeViewModel;
 
     ImageButton btnCart;
+    ShimmerFrameLayout skeletonLayout;
 
 
     public MenuFragment() {
@@ -83,11 +85,15 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
         showCurrentCategoryLabel(0);
         getTotalCartItemsRequest();
 
+
+        skeletonLayout.startShimmer();
+
         return rootView;
     }
 
     private void addControls() {
         showCategories = rootView.findViewById(R.id.showCategories);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
 
         recyclerView = rootView.findViewById(R.id.productRecyclerView);
         recyclerView.hasFixedSize();
@@ -303,6 +309,11 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
     private  void renderProducts() {
         productAdapter = new ProductAdapter(getContext(),products);
         recyclerView.setAdapter(productAdapter);
+
+        recyclerView.setVisibility(View.VISIBLE);
+        skeletonLayout.stopShimmer();
+        skeletonLayout.hideShimmer();
+        skeletonLayout.setVisibility(View.GONE);
     }
 
     private void showProductDetailBottomSheet() {
