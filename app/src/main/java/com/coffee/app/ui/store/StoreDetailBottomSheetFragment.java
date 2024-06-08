@@ -23,7 +23,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
-
 public class StoreDetailBottomSheetFragment extends BottomSheetDialogFragment {
 
     BottomSheetDialog dialog;
