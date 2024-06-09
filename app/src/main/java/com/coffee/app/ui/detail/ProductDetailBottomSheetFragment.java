@@ -1,6 +1,9 @@
 package com.coffee.app.ui.detail;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,6 +42,7 @@ import com.coffee.app.model.Wishlist;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
 import com.coffee.app.ui.home.CoffeeProductCardGridAdapter;
+import com.coffee.app.ui.login.LoginActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -400,8 +404,11 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        if (user == null) {
+            return;
+        }
+         String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
         String url = Constants.API_URL + "/wishlist/" + userId;
 
 
@@ -467,8 +474,13 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        if (user == null) {
+            // Open dialog to ask user to login
+            showLoginDialog();
+            return;
+        }
+         String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -536,15 +548,46 @@ public class ProductDetailBottomSheetFragment extends BottomSheetDialogFragment 
         queue.add(stringRequest);
     }
 
+
+    private void showLoginDialog() {
+        // Open dialog to ask user to login
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Đăng nhập tài khoản để tiếp tục")
+                .setTitle("Yêu cầu đăng nhập")
+                .setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked "Yes" button
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        // Create the AlertDialog object and show it
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void addToCartRequest() {
-        loadingBar.setVisibility(View.VISIBLE);
+
 
         String url = Constants.API_URL + "/cart";
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+
+        if (user == null) {
+            // Open dialog to ask user to login
+            showLoginDialog();
+            return;
+        }
+
+        loadingBar.setVisibility(View.VISIBLE);
+
+         String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

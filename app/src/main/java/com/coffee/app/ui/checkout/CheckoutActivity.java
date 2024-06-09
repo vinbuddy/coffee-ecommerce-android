@@ -287,8 +287,8 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
     private void getCartRequest() {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/cart/" + userId;
 
@@ -451,8 +451,8 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+         String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String orderId = Utils.generateOrderId();
 
@@ -548,8 +548,8 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
 
     private Order createOrderInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+         String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
 
         Order order = new Order();
@@ -595,8 +595,8 @@ public class CheckoutActivity extends AppCompatActivity implements ApplyVoucherB
 
     private void initOrderToRealtimeDatabase(String orderId) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+         String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("orders");
 
         Map<String, Map<String, String>>  statuses = new HashMap<>();

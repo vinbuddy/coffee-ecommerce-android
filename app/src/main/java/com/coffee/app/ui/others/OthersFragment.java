@@ -103,8 +103,11 @@ public class OthersFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        if (user == null) {
+            return;
+        }
+                String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/cart/total/" + userId;
 

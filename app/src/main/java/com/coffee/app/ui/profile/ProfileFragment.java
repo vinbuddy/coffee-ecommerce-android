@@ -33,6 +33,8 @@ import com.coffee.app.R;
 import com.coffee.app.model.User;
 import com.coffee.app.model.UserViewModel;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.cart.CartActivity;
+import com.coffee.app.ui.login.LoginActivity;
 import com.coffee.app.ui.others.OthersFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,6 +80,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView =  inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // Check authentication firebase if not login, redirect to login page
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
 
         addControls();
         renderProfile();
@@ -314,7 +322,12 @@ public class ProfileFragment extends Fragment {
         userViewModel.getCurrentUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(@Nullable User currentUser) {
-                if (user != null) {
+                boolean isUserNull = currentUser == null;
+
+                Toast.makeText(getContext(), String.valueOf(isUserNull), Toast.LENGTH_SHORT).show();
+
+
+                if (currentUser != null) {
                     inputName.setText(currentUser.getUserName());
                     inputEmail.setText(currentUser.getEmail());
                     Picasso.get().load(currentUser.getAvatar()).into(imageAvatar);

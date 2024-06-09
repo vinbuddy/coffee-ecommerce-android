@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,8 +167,13 @@ public class MenuFragment extends Fragment implements CategoryBottomSheetFragmen
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        if (user == null) {
+            return;
+        }
+
+        Log.d("user", user.getUid() + " " + user.getEmail() + " " + user.getDisplayName());
+                String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/cart/total/" + userId;
 

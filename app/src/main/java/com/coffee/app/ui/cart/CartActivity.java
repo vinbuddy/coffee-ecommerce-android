@@ -37,6 +37,7 @@ import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
 import com.coffee.app.shared.Utils;
 import com.coffee.app.ui.checkout.CheckoutActivity;
+import com.coffee.app.ui.login.LoginActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,6 +64,12 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        // Check authentication firebase if not login, redirect to login page
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(CartActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         addControls();
         skeletonLayout.startShimmer();
@@ -209,8 +216,8 @@ public class CartActivity extends AppCompatActivity {
     private void getCartRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        String userId = user.getUid();
+//        String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/cart/" + userId;
 

@@ -256,9 +256,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void createUserAccountRequest(FirebaseUser _userInfo) {
+    private void createUserAccountRequest(FirebaseUser userInfo) {
 
-        GoogleSignInAccount userInfo = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
+//        GoogleSignInAccount usr = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
 
 
         // URL of your server-side script that handles account creation
@@ -283,7 +283,12 @@ public class LoginActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<>();
 
-                param.put("id", userInfo.getId());
+//                param.put("id", userInfo.getId());
+//                param.put("email", userInfo.getEmail() != null ? userInfo.getEmail() : "");
+//                param.put("user_name", userInfo.getDisplayName());
+//                param.put("avatar", String.valueOf(userInfo.getPhotoUrl()));
+//                param.put("account_type", "google");
+                param.put("id", userInfo.getUid() != null ? userInfo.getUid() : "");
                 param.put("email", userInfo.getEmail() != null ? userInfo.getEmail() : "");
                 param.put("user_name", userInfo.getDisplayName());
                 param.put("avatar", String.valueOf(userInfo.getPhotoUrl()));

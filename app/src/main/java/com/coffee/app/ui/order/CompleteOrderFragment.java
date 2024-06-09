@@ -107,8 +107,8 @@ public class CompleteOrderFragment extends Fragment {
     private void getUserOrdersRequest() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/order/user-order/" + userId;
 

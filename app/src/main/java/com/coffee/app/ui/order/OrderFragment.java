@@ -1,5 +1,6 @@
 package com.coffee.app.ui.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.coffee.app.R;
+import com.coffee.app.ui.cart.CartActivity;
+import com.coffee.app.ui.login.LoginActivity;
 import com.coffee.app.ui.others.OthersFragment;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class OrderFragment extends Fragment {
 
@@ -37,6 +41,14 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_order, container, false);
+
+        // Check if the user is not logged in then redirect to login page
+        // Check authentication firebase if not login, redirect to login page
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
         addControls();
         addEvents();
 

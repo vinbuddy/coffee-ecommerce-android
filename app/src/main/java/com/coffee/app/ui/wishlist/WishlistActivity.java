@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -20,7 +21,9 @@ import com.android.volley.toolbox.Volley;
 import com.coffee.app.R;
 import com.coffee.app.model.Product;
 import com.coffee.app.shared.Constants;
+import com.coffee.app.ui.cart.CartActivity;
 import com.coffee.app.ui.detail.ProductDetailBottomSheetFragment;
+import com.coffee.app.ui.login.LoginActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,6 +47,13 @@ public class WishlistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist);
+
+        // Check authentication firebase if not login, redirect to login page
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
 
         addControls();
         skeletonLayout.startShimmer();
@@ -79,8 +89,8 @@ public class WishlistActivity extends AppCompatActivity {
     private void getWishListRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/wishlist/" + userId;
 

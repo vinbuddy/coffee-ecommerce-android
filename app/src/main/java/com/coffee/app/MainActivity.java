@@ -12,7 +12,9 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -64,14 +66,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCurrentUserRequest() {
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+
+        String userId = user.getUid();
         String url = Constants.API_URL + "/user/" + userId;
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = new StringRequest(url, response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject data = jsonObject.getJSONObject("data");
@@ -88,13 +93,15 @@ public class MainActivity extends AppCompatActivity {
                 currentUser.setEmail(email);
                 currentUser.setAvatar(avatar);
 
+                Toast.makeText(this, "Đã đăng nhập tài khoản", Toast.LENGTH_SHORT).show();
+
                 userViewModel.setCurrentUser(currentUser);
 
             } catch (Exception e) {
                 System.out.println(e);
             }
         }, error -> {
-            System.out.println(error);
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         });
 
         queue.add(stringRequest);

@@ -219,8 +219,8 @@ public class CurrentOrderFragment extends Fragment {
 
     private void getCurrentOrderFirebase() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userId = user.getUid();
-        String userId = Constants.TEMP_USER_ID;
+        String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
         Query userOrdersQuery = ordersRef.orderByChild("userId").equalTo(userId);
@@ -289,7 +289,8 @@ public class CurrentOrderFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String userId = Constants.TEMP_USER_ID;
+        String userId = user.getUid();
+        //String userId = Constants.TEMP_USER_ID;
 
         String url = Constants.API_URL + "/order/" + currentOrder.getOrderId();
 
